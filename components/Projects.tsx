@@ -57,7 +57,7 @@ const projects: Project[] = [
     tech: ["Next.js", "TypeScript", "NestJS", "PostgreSQL"],
     live: null,
     github: "https://github.com/maggioniduffy/conpermiso",
-    // video: "/videos/kkapp.mp4",
+    video: "/videos/kkapp.mp4",
   },
   {
     num: "02",
