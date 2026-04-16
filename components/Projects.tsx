@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 
 const ExternalIcon = () => (
   <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -14,8 +14,21 @@ const GitHubIcon = () => (
 );
 
 const PlayIcon = () => (
-  <svg fill="currentColor" viewBox="0 0 24 24" width="20" height="20">
+  <svg fill="currentColor" viewBox="0 0 24 24" width="22" height="22">
     <path d="M8 5v14l11-7z" />
+  </svg>
+);
+
+const CloseIcon = () => (
+  <svg
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+    strokeWidth={2}
+    width="24"
+    height="24"
+  >
+    <path d="M6 18L18 6M6 6l12 12" />
   </svg>
 );
 
@@ -30,7 +43,7 @@ type Project = {
   tech: string[];
   live: string | null;
   github: string | null;
-  video?: string; // ruta relativa a /public, ej: "/videos/kkapp.mp4"
+  video?: string;
 };
 
 const projects: Project[] = [
@@ -63,7 +76,6 @@ const projects: Project[] = [
     num: "03",
     badge: "Finanzas",
     accent: "#7b61ff",
-    tag: "Trabajo en progreso",
     name: "Colchoncito",
     desc: "Tracker de finanzas personales diseñado para la realidad argentina de doble moneda — administrá tu dinero en pesos y dólares sin planillas. Iniciá sesión con Google y tomá el control.",
     tech: ["Next.js", "TypeScript", "Google Auth", "Vercel"],
@@ -87,7 +99,7 @@ const projects: Project[] = [
     badge: "Directorio",
     accent: "#e85d04",
     name: "YC Directory",
-    desc: "Plataforma estilo Y Combinator donde emprendedores publican sus pitches de startups, votan las ideas de otros y ganan visibilidad en competencias virtuales. Incluye autenticación, búsqueda en tiempo real y un editor de contenido enriquecido. Hecha para practicar integración de CMS y autenticación en Next.js.",
+    desc: "Plataforma estilo Y Combinator donde emprendedores publican sus pitches de startups, votan las ideas de otros y ganan visibilidad en competencias virtuales. Incluye autenticación, búsqueda en tiempo real y un editor de contenido enriquecido.",
     tech: ["Next.js", "TypeScript", "Sanity CMS", "NextAuth", "Vercel"],
     live: "https://yc-jsm-seven.vercel.app/",
     github: null,
@@ -95,121 +107,186 @@ const projects: Project[] = [
   },
 ];
 
-function ProjectCard({ p }: { p: Project }) {
+// ─── Modal fullscreen ───────────────────────────────────────────────
+function VideoModal({ src, onClose }: { src: string; onClose: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
-  const handleMouseEnter = () => {
+  useEffect(() => {
     videoRef.current?.play();
-  };
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
+  }, [onClose]);
+
+  return (
+    <div className="video-modal-backdrop" onClick={onClose}>
+      <button
+        className="video-modal-close"
+        onClick={onClose}
+        aria-label="Cerrar"
+      >
+        <CloseIcon />
+      </button>
+      <div className="video-modal-content" onClick={(e) => e.stopPropagation()}>
+        <video
+          ref={videoRef}
+          src={src}
+          controls
+          playsInline
+          className="video-modal-player"
+        />
+      </div>
+    </div>
+  );
+}
+
+// ─── Card ───────────────────────────────────────────────────────────
+function ProjectCard({ p }: { p: Project }) {
+  const thumbRef = useRef<HTMLVideoElement>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleMouseEnter = () => thumbRef.current?.play();
   const handleMouseLeave = () => {
-    const v = videoRef.current;
+    const v = thumbRef.current;
     if (!v) return;
     v.pause();
     v.currentTime = 0;
   };
 
   return (
-    <div
-      className="project-card reveal"
-      style={{ ["--card-accent" as string]: p.accent }}
-      onMouseEnter={p.video ? handleMouseEnter : undefined}
-      onMouseLeave={p.video ? handleMouseLeave : undefined}
-    >
-      {/* Video preview */}
-      {p.video && (
-        <div className="project-video-wrap">
-          <video
-            ref={videoRef}
-            src={p.video}
-            muted
-            loop
-            playsInline
-            preload="metadata"
-            className="project-video"
-          />
-          <div className="project-video-overlay">
-            <PlayIcon />
-            <span>Vista previa</span>
+    <>
+      <div
+        className="project-card reveal"
+        style={{ ["--card-accent" as string]: p.accent }}
+        onMouseEnter={p.video ? handleMouseEnter : undefined}
+        onMouseLeave={p.video ? handleMouseLeave : undefined}
+      >
+        {p.video && (
+          <div
+            className="project-video-wrap"
+            onClick={() => setModalOpen(true)}
+          >
+            <video
+              ref={thumbRef}
+              src={p.video}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="project-video"
+            />
+            <div className="project-video-overlay">
+              <PlayIcon />
+              <span>Vista previa</span>
+            </div>
+          </div>
+        )}
+
+        <div className="project-number">
+          <span>{p.num}</span>
+          <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
+            {p.tag && (
+              <span
+                className="project-badge"
+                style={{
+                  color: "var(--card-accent)",
+                  borderColor: "var(--card-accent)",
+                  background: "rgba(255,255,255,0.03)",
+                }}
+              >
+                {p.tag}
+              </span>
+            )}
+            <span className="project-badge">{p.badge}</span>
           </div>
         </div>
-      )}
 
-      <div className="project-number">
-        <span>{p.num}</span>
-        <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-          {p.tag && (
-            <span
-              className="project-badge"
-              style={{
-                color: "var(--card-accent)",
-                borderColor: "var(--card-accent)",
-                background: "rgba(255,255,255,0.03)",
-              }}
+        <div className="project-name">
+          {p.nameExtra ? (
+            <>
+              {p.name.replace(p.nameExtra, "")}
+              <span style={{ color: "var(--muted)" }}>{p.nameExtra}</span>
+            </>
+          ) : (
+            p.name
+          )}
+        </div>
+
+        <p className="project-desc">{p.desc}</p>
+
+        <div className="project-tech">
+          {p.tech.map((t) => (
+            <span key={t} className="tech-tag">
+              {t}
+            </span>
+          ))}
+        </div>
+
+        <div className="project-links">
+          {p.live ? (
+            <a
+              href={p.live}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-link"
             >
-              {p.tag}
+              <ExternalIcon />
+              Sitio en vivo
+            </a>
+          ) : (
+            <span
+              className="project-link"
+              style={{ opacity: 0.35, cursor: "not-allowed" }}
+            >
+              <ExternalIcon />
+              Sitio en vivo
             </span>
           )}
-          <span className="project-badge">{p.badge}</span>
+          {p.github && (
+            <a
+              href={p.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="project-link"
+            >
+              <GitHubIcon />
+              GitHub
+            </a>
+          )}
+          {p.video && (
+            <button
+              className="project-link"
+              onClick={() => setModalOpen(true)}
+              style={{
+                background: "none",
+                border: "none",
+                padding: 0,
+                cursor: "pointer",
+              }}
+            >
+              <PlayIcon />
+              Ver demo
+            </button>
+          )}
         </div>
       </div>
 
-      <div className="project-name">
-        {p.nameExtra ? (
-          <>
-            {p.name.replace(p.nameExtra, "")}
-            <span style={{ color: "var(--muted)" }}>{p.nameExtra}</span>
-          </>
-        ) : (
-          p.name
-        )}
-      </div>
-
-      <p className="project-desc">{p.desc}</p>
-
-      <div className="project-tech">
-        {p.tech.map((t) => (
-          <span key={t} className="tech-tag">
-            {t}
-          </span>
-        ))}
-      </div>
-
-      <div className="project-links">
-        {p.live ? (
-          <a
-            href={p.live}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-link"
-          >
-            <ExternalIcon />
-            Sitio en vivo
-          </a>
-        ) : (
-          <span
-            className="project-link"
-            style={{ opacity: 0.35, cursor: "not-allowed" }}
-          >
-            <ExternalIcon />
-            Sitio en vivo
-          </span>
-        )}
-        {p.github && (
-          <a
-            href={p.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="project-link"
-          >
-            <GitHubIcon />
-            GitHub
-          </a>
-        )}
-      </div>
-    </div>
+      {modalOpen && p.video && (
+        <VideoModal src={p.video} onClose={() => setModalOpen(false)} />
+      )}
+    </>
   );
 }
 
+// ─── Section ────────────────────────────────────────────────────────
 export default function Projects() {
   return (
     <section id="projects">
