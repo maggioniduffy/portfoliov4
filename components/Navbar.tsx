@@ -34,6 +34,9 @@ export default function Navbar() {
         <li>
           <a href="#contact">Contacto</a>
         </li>
+        <li>
+          <a href="#testimonials">Testimonios</a>
+        </li>
       </ul>
     </nav>
   );
