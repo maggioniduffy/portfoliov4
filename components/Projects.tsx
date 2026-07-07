@@ -1,5 +1,7 @@
 "use client";
 import { useRef, useState, useEffect } from "react";
+import { useLanguage } from "./LanguageContext";
+import { translations, type Lang } from "@/lib/translations";
 
 const ExternalIcon = () => (
   <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -46,70 +48,40 @@ type Project = {
   video?: string;
 };
 
-const projects: Project[] = [
-  {
-    num: "01",
-    badge: "App Web",
-    accent: "#00e5a0",
-    name: "KKApp",
-    tag: "Nuevo!",
-    desc: "Aplicación web completa construida con tecnologías modernas. Desarrollada con atención al rendimiento y la experiencia del desarrollador.",
-    tech: ["Next.js", "TypeScript", "NestJS", "PostgreSQL"],
-    live: "https://kkapp.es/",
-    github: "https://github.com/maggioniduffy/conpermiso",
-    video: "/videos/kkapp.mp4",
-  },
-  {
-    num: "02",
-    badge: "App de Turismo",
-    accent: "#ff6b35",
-    name: "Escapada.cba",
-    nameExtra: ".cba",
-    tag: "Trabajo en progreso",
-    desc: "App de descubrimiento turístico para las Sierras de Córdoba. Los usuarios pueden explorar destinos de fin de semana con calificaciones, niveles de dificultad, distancias y opciones de transporte — en una interfaz de lista/mapa.",
-    tech: ["Next.js", "TypeScript", "Maps API", "Vercel"],
-    live: "https://escapadascba.vercel.app/",
-    github: "https://github.com/maggioniduffy/sierras-cba",
-    // video: "/videos/escapada.mp4",
-  },
-  {
-    num: "03",
-    badge: "Finanzas",
-    accent: "#7b61ff",
-    name: "Colchoncito",
-    desc: "Tracker de finanzas personales diseñado para la realidad argentina de doble moneda — administrá tu dinero en pesos y dólares sin planillas. Iniciá sesión con Google y tomá el control.",
-    tech: ["Next.js", "TypeScript", "Google Auth", "Vercel"],
-    live: "https://colchoncito.vercel.app/",
-    github: "https://github.com/maggioniduffy/colchoncito",
-    video: "/videos/colchoncito.mp4",
-  },
-  {
-    num: "04",
-    badge: "E-Commerce",
-    accent: "#f5c842",
-    name: "El Frutito",
-    desc: "Catálogo online y sistema de pedidos para una dietética de Nueva Córdoba. Los clientes navegan el catálogo completo, agregan productos al carrito con stock y precios en tiempo real, y envían su pedido directo por WhatsApp.",
-    tech: ["Next.js", "TypeScript", "React", "Vercel"],
-    live: "https://elfrutito.vercel.app/",
-    github: "https://github.com/maggioniduffy/elfrutito",
-    // video: "/videos/elfrutito.mp4",
-  },
-  {
-    num: "05",
-    badge: "Directorio",
-    accent: "#e85d04",
-    name: "YC Directory",
-    desc: "Plataforma estilo Y Combinator donde emprendedores publican sus pitches de startups, votan las ideas de otros y ganan visibilidad en competencias virtuales. Incluye autenticación, búsqueda en tiempo real y un editor de contenido enriquecido.",
-    tech: ["Next.js", "TypeScript", "Sanity CMS", "NextAuth", "Vercel"],
-    live: "https://yc-jsm-seven.vercel.app/",
-    github: null,
-    // video: "/videos/ycdirectory.mp4",
-  },
-];
+const getProjects = (lang: Lang): Project[] => {
+  const t = translations[lang].projects.items;
+  return [
+    {
+      num: "01",
+      badge: t.kkapp.badge,
+      accent: "#00e5a0",
+      name: "KKApp",
+      tag: t.kkapp.tag,
+      desc: t.kkapp.desc,
+      tech: ["Next.js", "TypeScript", "NestJS", "PostgreSQL"],
+      live: "https://kkapp.es/",
+      github: "https://github.com/maggioniduffy/conpermiso",
+      video: "/videos/kkapp.mp4",
+    },
+    {
+      num: "02",
+      badge: t.colchoncito.badge,
+      accent: "#7b61ff",
+      name: "Colchoncito",
+      desc: t.colchoncito.desc,
+      tech: ["Next.js", "TypeScript", "Google Auth", "Vercel"],
+      live: "https://colchoncito.vercel.app/",
+      github: "https://github.com/maggioniduffy/colchoncito",
+      video: "/videos/colchoncito.mp4",
+    },
+  ];
+};
 
 // ─── Modal fullscreen ───────────────────────────────────────────────
 function VideoModal({ src, onClose }: { src: string; onClose: () => void }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const { lang } = useLanguage();
+  const t = translations[lang].projects;
 
   useEffect(() => {
     videoRef.current?.play();
@@ -131,7 +103,7 @@ function VideoModal({ src, onClose }: { src: string; onClose: () => void }) {
       <button
         className="video-modal-close"
         onClick={onClose}
-        aria-label="Cerrar"
+        aria-label={t.closeAria}
       >
         <CloseIcon />
       </button>
@@ -152,6 +124,8 @@ function VideoModal({ src, onClose }: { src: string; onClose: () => void }) {
 function ProjectCard({ p }: { p: Project }) {
   const thumbRef = useRef<HTMLVideoElement>(null);
   const [modalOpen, setModalOpen] = useState(false);
+  const { lang } = useLanguage();
+  const t = translations[lang].projects;
 
   const handleMouseEnter = () => thumbRef.current?.play();
   const handleMouseLeave = () => {
@@ -185,7 +159,7 @@ function ProjectCard({ p }: { p: Project }) {
             />
             <div className="project-video-overlay">
               <PlayIcon />
-              <span>Vista previa</span>
+              <span>{t.preview}</span>
             </div>
           </div>
         )}
@@ -223,9 +197,9 @@ function ProjectCard({ p }: { p: Project }) {
         <p className="project-desc">{p.desc}</p>
 
         <div className="project-tech">
-          {p.tech.map((t) => (
-            <span key={t} className="tech-tag">
-              {t}
+          {p.tech.map((tech) => (
+            <span key={tech} className="tech-tag">
+              {tech}
             </span>
           ))}
         </div>
@@ -239,7 +213,7 @@ function ProjectCard({ p }: { p: Project }) {
               className="project-link"
             >
               <ExternalIcon />
-              Sitio en vivo
+              {t.liveSite}
             </a>
           ) : (
             <span
@@ -247,7 +221,7 @@ function ProjectCard({ p }: { p: Project }) {
               style={{ opacity: 0.35, cursor: "not-allowed" }}
             >
               <ExternalIcon />
-              Sitio en vivo
+              {t.liveSite}
             </span>
           )}
           {p.github && (
@@ -273,7 +247,7 @@ function ProjectCard({ p }: { p: Project }) {
               }}
             >
               <PlayIcon />
-              Ver demo
+              {t.watchDemo}
             </button>
           )}
         </div>
@@ -288,12 +262,17 @@ function ProjectCard({ p }: { p: Project }) {
 
 // ─── Section ────────────────────────────────────────────────────────
 export default function Projects() {
+  const { lang } = useLanguage();
+  const t = translations[lang].projects;
+  const projects = getProjects(lang);
+
   return (
     <section id="projects">
       <div className="projects-header reveal">
-        <div className="section-label">Trabajos seleccionados</div>
+        <div className="section-label">{t.label}</div>
         <h2 className="section-title">
-          Proyectos que <em>lancé</em>
+          {t.title.pre}
+          <em>{t.title.em}</em>
         </h2>
       </div>
       <div className="projects-grid">

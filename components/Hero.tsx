@@ -1,4 +1,11 @@
+"use client";
+import { useLanguage } from "./LanguageContext";
+import { translations } from "@/lib/translations";
+
 export default function Hero() {
+  const { lang } = useLanguage();
+  const t = translations[lang].hero;
+
   return (
     <section className="hero" id="home">
       <div className="hero-grid-bg" />
@@ -8,7 +15,7 @@ export default function Hero() {
         {/* Profile preview */}
 
         <div className="hero-tag" style={{ marginTop: "28px" }}>
-          Disponible para nuevas oportunidades
+          {t.tag}
         </div>
         <h1 className="hero-name">
           Faustino
@@ -17,10 +24,7 @@ export default function Hero() {
           <br />
           <span className="accent">Duffy</span>
         </h1>
-        <p className="hero-desc">
-          Desarrollador full-stack de Córdoba, Argentina — construyendo
-          productos digitales limpios, escalables y bellamente diseñados.
-        </p>
+        <p className="hero-desc">{t.desc}</p>
         <div className="hero-cta">
           <a href="#projects" className="btn-primary">
             <svg
@@ -33,7 +37,20 @@ export default function Hero() {
             >
               <path d="M4 6h16M4 12h16M4 18h7" />
             </svg>
-            Ver proyectos
+            {t.ctaProjects}
+          </a>
+          <a href="#contact" className="btn-ghost">
+            <svg
+              width="16"
+              height="16"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+            </svg>
+            {t.ctaWork}
           </a>
           <a
             href="https://www.linkedin.com/in/maggioniduffy/"
@@ -50,7 +67,7 @@ export default function Hero() {
       </div>
       <div className="hero-scroll">
         <div className="scroll-line" />
-        Desplazá para explorar
+        {t.scroll}
       </div>
     </section>
   );

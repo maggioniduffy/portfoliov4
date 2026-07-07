@@ -1,4 +1,6 @@
 "use client";
+import { useLanguage } from "./LanguageContext";
+import { translations, type Lang } from "@/lib/translations";
 
 type Testimonial = {
   name: string;
@@ -9,17 +11,19 @@ type Testimonial = {
   video: string;
 };
 
-const testimonials: Testimonial[] = [
-  {
-    name: "Nombre del cliente",
-    role: "Cargo",
-    company: "KKApp",
-    companyAccent: "#00e5a0",
-    quote:
-      "Trabajar con Faustino fue una experiencia excelente. Entendió nuestras necesidades desde el primer momento y el resultado superó nuestras expectativas.",
-    video: "/videos/testimonial-kkapp.mp4",
-  },
-];
+const getTestimonials = (lang: Lang): Testimonial[] => {
+  const t = translations[lang].testimonials;
+  return [
+    {
+      name: t.clientName,
+      role: t.clientRole,
+      company: "KKApp",
+      companyAccent: "#00e5a0",
+      quote: t.quote,
+      video: "/videos/testimonial-kkapp.mp4",
+    },
+  ];
+};
 
 function TestimonialCard({ t }: { t: Testimonial }) {
   return (
@@ -50,13 +54,18 @@ function TestimonialCard({ t }: { t: Testimonial }) {
 }
 
 export default function Testimonials() {
+  const { lang } = useLanguage();
+  const t = translations[lang].testimonials;
+  const testimonials = getTestimonials(lang);
+
   return (
     <section id="testimonials">
       <div className="testimonials-inner">
         <div className="reveal">
-          <div className="section-label">Lo que dicen</div>
+          <div className="section-label">{t.label}</div>
           <h2 className="section-title">
-            Clientes que <em>confían</em>
+            {t.title.pre}
+            <em>{t.title.em}</em>
           </h2>
         </div>
         <div className="testimonials-grid">

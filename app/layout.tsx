@@ -22,35 +22,39 @@ const instrumentSerif = Instrument_Serif({
   variable: "--font-instrument-serif",
 });
 
-const BASE_URL = "https://tusitio.com"; // <-- reemplazá con tu dominio real
+const BASE_URL = "https://maggioniduffy.vercel.app";
+
+// Metadata is rendered server-side, so it can't follow the client-side
+// language toggle — default to English since the site targets international clients.
+const OG_TITLE = "Faustino Maggioni Duffy — Software Developer";
+const OG_DESCRIPTION =
+  "Full-stack developer from Córdoba, Argentina — building clean, scalable, beautifully designed digital products.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
-  title: "Faustino Maggioni Duffy — Desarrollador de Software",
-  description:
-    "Desarrollador full-stack de Córdoba, Argentina — construyendo productos digitales limpios, escalables y bellamente diseñados.",
+  title: OG_TITLE,
+  description: OG_DESCRIPTION,
   openGraph: {
-    title: "Faustino Maggioni Duffy — Desarrollador de Software",
-    description:
-      "Desarrollador full-stack de Córdoba, Argentina — construyendo productos digitales limpios, escalables y bellamente diseñados.",
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
     url: BASE_URL,
-    siteName: "Faustino Maggioni Duffy",
+    siteName: "Faustino Maggioni Duffy - Software Developer",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Faustino Maggioni Duffy — Desarrollador de Software",
+        alt: OG_TITLE,
       },
     ],
-    locale: "es_AR",
+    locale: "en_US",
+    alternateLocale: "es_AR",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Faustino Maggioni Duffy — Desarrollador de Software",
-    description:
-      "Desarrollador full-stack de Córdoba, Argentina — construyendo productos digitales limpios, escalables y bellamente diseñados.",
+    title: OG_TITLE,
+    description: OG_DESCRIPTION,
     images: ["/og-image.png"],
   },
 };

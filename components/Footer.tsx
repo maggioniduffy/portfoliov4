@@ -1,8 +1,15 @@
+"use client";
+import { useLanguage } from "./LanguageContext";
+import { translations } from "@/lib/translations";
+
 export default function Footer() {
+  const { lang } = useLanguage();
+  const t = translations[lang].footer;
+
   return (
     <footer>
-      <span>© 2025 Faustino Maggioni Duffy</span>
-      <span>Hecho con cuidado · Córdoba, Argentina</span>
+      <span>{t.copyright}</span>
+      <span>{t.madeWith}</span>
     </footer>
   );
 }

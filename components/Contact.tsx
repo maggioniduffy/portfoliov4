@@ -1,15 +1,20 @@
+"use client";
+import { useLanguage } from "./LanguageContext";
+import { translations } from "@/lib/translations";
+
 export default function Contact() {
+  const { lang } = useLanguage();
+  const t = translations[lang].contact;
+
   return (
     <section id="contact">
       <div className="contact-inner reveal">
-        <div className="section-label">Contacto</div>
+        <div className="section-label">{t.label}</div>
         <h2 className="section-title">
-          Construyamos <em>algo</em>
+          {t.title.pre}
+          <em>{t.title.em}</em>
         </h2>
-        <p className="contact-intro">
-          Ya sea un nuevo proyecto, una oportunidad laboral o simplemente
-          charlar — siempre estoy disponible para conectar.
-        </p>
+        <p className="contact-intro">{t.intro}</p>
         <a href="mailto:fausmaggioni5@gmail.com" className="contact-email">
           fausmaggioni5@gmail.com
         </a>

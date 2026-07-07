@@ -1,38 +1,43 @@
+"use client";
+import { useLanguage } from "./LanguageContext";
+import { translations } from "@/lib/translations";
+
 export default function About() {
+  const { lang } = useLanguage();
+  const t = translations[lang].about;
+
   return (
     <section id="about">
       <div className="about reveal">
         <div>
-          <div className="section-label">Sobre mí</div>
+          <div className="section-label">{t.label}</div>
           <h2 className="section-title">
-            Construyendo <em>software</em>
-            <br />
-            con propósito
+            {t.title.pre}
+            <em>{t.title.em}</em>
+            {t.title.post && (
+              <>
+                <br />
+                {t.title.post}
+              </>
+            )}
           </h2>
           <div className="about-text">
-            <p>
-              Soy un desarrollador full-stack apasionado, creativo y curioso,
-              con{" "}
-              <strong>sólidos fundamentos y un ojo agudo para el diseño</strong>
-              . Me enfoco en producir software escalable que sigue las mejores
-              prácticas — desde la arquitectura hasta el último píxel.
-            </p>
-            <p>
-              Con formación universitaria y autodidacta, me adapto rápidamente a
-              distintos requisitos gracias a la amplitud de mi preparación. He
-              desarrollado desde <strong>plataformas de e-commerce</strong> y{" "}
-              <strong>herramientas financieras</strong> hasta{" "}
-              <strong>sistemas de entrenamiento de IA</strong>.
-            </p>
-            <p>
-              Basado en <strong>Córdoba, Argentina</strong>. Disponible para
-              trabajo remoto en cualquier parte del mundo.
-            </p>
+            {t.paragraphs.map((segments, i) => (
+              <p key={i}>
+                {segments.map((s, j) =>
+                  s.strong ? (
+                    <strong key={j}>{s.text}</strong>
+                  ) : (
+                    <span key={j}>{s.text}</span>
+                  )
+                )}
+              </p>
+            ))}
           </div>
         </div>
         <div className="skills-grid">
           <div>
-            <div className="skill-group-label">Stack principal</div>
+            <div className="skill-group-label">{t.coreStack}</div>
             <div className="skill-tags">
               {[
                 "TypeScript",
@@ -50,7 +55,7 @@ export default function About() {
             </div>
           </div>
           <div>
-            <div className="skill-group-label">También con experiencia en</div>
+            <div className="skill-group-label">{t.alsoExperienced}</div>
             <div className="skill-tags">
               {[
                 "Java",
@@ -58,7 +63,7 @@ export default function About() {
                 "AWS",
                 "Docker",
                 "Pandas",
-                "Librerías ML",
+                t.mlLibraries,
                 "Playwright",
                 "SQL",
               ].map((s) => (
@@ -69,11 +74,9 @@ export default function About() {
             </div>
           </div>
           <div>
-            <div className="skill-group-label">Educación</div>
+            <div className="skill-group-label">{t.education}</div>
             <div className="skill-tags">
-              <span className="skill-tag">
-                Lic. en Ciencias de la Computación - UNCO
-              </span>
+              <span className="skill-tag">{t.degree}</span>
             </div>
           </div>
         </div>

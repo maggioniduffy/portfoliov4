@@ -8,10 +8,11 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import ScrollReveal from "@/components/ScrollReveal";
 import Testimonials from "@/components/Testimonials";
+import { LanguageProvider } from "@/components/LanguageContext";
 
 export default function Home() {
   return (
-    <>
+    <LanguageProvider>
       <Cursor />
       <Navbar />
       <main>
@@ -24,6 +25,6 @@ export default function Home() {
       </main>
       <Footer />
       <ScrollReveal />
-    </>
+    </LanguageProvider>
   );
 }

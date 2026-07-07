@@ -134,6 +134,30 @@ nav.scrolled {
 .nav-links a:hover {
   color: var(--accent);
 }
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+.lang-toggle {
+  font-family: "DM Mono", monospace;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  padding: 6px 12px;
+  cursor: pointer;
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+.lang-toggle:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
 
 /* HERO */
 .hero {
@@ -416,6 +440,8 @@ section {
 }
 .skill-tag {
   display: inline-block;
+  max-width: 100%;
+  overflow-wrap: break-word;
   padding: 6px 14px;
   border: 1px solid var(--border);
   border-radius: 4px;
@@ -452,9 +478,6 @@ section {
   gap: 2px;
   max-width: 1200px;
   margin: 0 auto;
-}
-.projects-grid .project-card:last-child:nth-child(odd) {
-  grid-column: 1 / -1;
 }
 .project-card {
   background: var(--card-bg);
@@ -710,6 +733,7 @@ footer {
   align-items: center;
   font-size: 12px;
   color: var(--muted);
+  overflow-wrap: break-word;
 }
 
 /* REVEAL */
@@ -729,13 +753,34 @@ footer {
 @media (max-width: 768px) {
   nav {
     padding: 16px 20px;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+  .nav-logo {
+    font-size: 16px;
   }
   .nav-links {
-    gap: 16px;
+    gap: 10px;
+    flex-wrap: wrap;
   }
   .nav-links a {
-    font-size: 10px;
-    letter-spacing: 0.04em;
+    font-size: 9px;
+    letter-spacing: 0.03em;
+  }
+  .nav-right {
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+  .lang-toggle {
+    font-size: 9px;
+    padding: 4px 8px;
+  }
+  .about-text p {
+    font-size: 14px;
+  }
+  footer {
+    font-size: 11px;
   }
   section {
     padding: 72px 20px;

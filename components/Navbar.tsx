@@ -1,8 +1,12 @@
 "use client";
 import { useEffect, useRef } from "react";
+import { useLanguage } from "./LanguageContext";
+import { translations } from "@/lib/translations";
 
 export default function Navbar() {
   const navRef = useRef<HTMLElement>(null);
+  const { lang, toggle } = useLanguage();
+  const t = translations[lang].nav;
 
   useEffect(() => {
     const nav = navRef.current;
@@ -21,23 +25,32 @@ export default function Navbar() {
       <a href="#" className="nav-logo">
         FM<span>.</span>
       </a>
-      <ul className="nav-links">
-        <li>
-          <a href="#about">Sobre mí</a>
-        </li>
-        <li>
-          <a href="#projects">Proyectos</a>
-        </li>
-        <li>
-          <a href="#experience">Experiencia</a>
-        </li>
-        <li>
-          <a href="#contact">Contacto</a>
-        </li>
-        <li>
-          <a href="#testimonials">Testimonios</a>
-        </li>
-      </ul>
+      <div className="nav-right">
+        <ul className="nav-links">
+          <li>
+            <a href="#about">{t.about}</a>
+          </li>
+          <li>
+            <a href="#projects">{t.projects}</a>
+          </li>
+          <li>
+            <a href="#experience">{t.experience}</a>
+          </li>
+          <li>
+            <a href="#contact">{t.contact}</a>
+          </li>
+          <li>
+            <a href="#testimonials">{t.testimonials}</a>
+          </li>
+        </ul>
+        <button
+          className="lang-toggle"
+          onClick={toggle}
+          aria-label={t.langToggleAria}
+        >
+          {lang === "es" ? "EN" : "ES"}
+        </button>
+      </div>
     </nav>
   );
 }
