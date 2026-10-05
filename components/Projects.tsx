@@ -189,9 +189,10 @@ function ProjectCard({ p }: { p: Project }) {
               <span
                 className="project-badge"
                 style={{
-                  color: "var(--card-accent)",
+                  color:
+                    "color-mix(in srgb, var(--card-accent), #000 var(--accent-ink))",
                   borderColor: "var(--card-accent)",
-                  background: "rgba(255,255,255,0.03)",
+                  background: "rgba(var(--tint-rgb), 0.03)",
                 }}
               >
                 {p.tag}

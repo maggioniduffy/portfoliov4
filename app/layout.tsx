@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Syne, DM_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
+import { themeInitScript } from "@/components/useTheme";
 
 const syne = Syne({
   subsets: ["latin"],
@@ -65,7 +66,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es">
+    <html lang="es" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${syne.variable} ${dmMono.variable} ${instrumentSerif.variable}`}
       >

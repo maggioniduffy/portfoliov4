@@ -19,6 +19,8 @@ type Translation = {
     contact: string;
     testimonials: string;
     langToggleAria: string;
+    themeToLightAria: string;
+    themeToDarkAria: string;
   };
   hero: {
     tag: string;
@@ -82,6 +84,8 @@ export const translations: Record<Lang, Translation> = {
       contact: "Contacto",
       testimonials: "Testimonios",
       langToggleAria: "Cambiar idioma a inglés",
+      themeToLightAria: "Cambiar a tema claro",
+      themeToDarkAria: "Cambiar a tema oscuro",
     },
     hero: {
       tag: "Disponible para nuevas oportunidades",
@@ -211,6 +215,8 @@ export const translations: Record<Lang, Translation> = {
       contact: "Contact",
       testimonials: "Testimonials",
       langToggleAria: "Switch language to Spanish",
+      themeToLightAria: "Switch to light theme",
+      themeToDarkAria: "Switch to dark theme",
     },
     hero: {
       tag: "Available for new opportunities",
