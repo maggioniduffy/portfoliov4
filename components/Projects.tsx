@@ -53,10 +53,28 @@ const getProjects = (lang: Lang): Project[] => {
   return [
     {
       num: "01",
+      badge: t.rionegro.badge,
+      accent: "#38bdf8",
+      name: "Río Negro Basin Explorer",
+      tag: t.rionegro.tag,
+      desc: t.rionegro.desc,
+      tech: [
+        "Next.js",
+        "TypeScript",
+        "MapLibre GL JS",
+        "PMTiles",
+        "DuckDB",
+        "GDAL",
+      ],
+      live: "https://rionegrobasinexplorer.vercel.app/",
+      github: "https://github.com/maggioniduffy/rionegro-basin-explorer",
+      video: "/videos/rionegro.mp4",
+    },
+    {
+      num: "02",
       badge: t.kkapp.badge,
       accent: "#00e5a0",
       name: "KKApp",
-      tag: t.kkapp.tag,
       desc: t.kkapp.desc,
       tech: ["Next.js", "TypeScript", "NestJS", "PostgreSQL"],
       live: "https://kkapp.es/",
@@ -64,7 +82,7 @@ const getProjects = (lang: Lang): Project[] => {
       video: "/videos/kkapp.mp4",
     },
     {
-      num: "02",
+      num: "03",
       badge: t.colchoncito.badge,
       accent: "#7b61ff",
       name: "Colchoncito",

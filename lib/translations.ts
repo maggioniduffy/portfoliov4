@@ -45,7 +45,8 @@ type Translation = {
     preview: string;
     closeAria: string;
     items: {
-      kkapp: { badge: string; tag: string; desc: string };
+      rionegro: { badge: string; tag: string; desc: string };
+      kkapp: { badge: string; desc: string };
       colchoncito: { badge: string; desc: string };
     };
   };
@@ -138,9 +139,13 @@ export const translations: Record<Lang, Translation> = {
       preview: "Vista previa",
       closeAria: "Cerrar",
       items: {
+        rionegro: {
+          badge: "Hidrología",
+          tag: "Nuevo!",
+          desc: "Mapa satelital interactivo de la cuenca del Río Negro, en la Patagonia argentina (ríos Limay y Neuquén). El diseño es oscuro y minimalista: solo se ve la red de ríos y una franja de tierra alrededor, con un control de \"tierra visible\". Tocá cualquiera de sus 8.016 tramos para ver su perfil (longitud, pendiente, orden de Strahler, caudal y regulación por represas) o navegá 25 subcuencas en hasta cuatro niveles. Armé mi propio pipeline de datos con DuckDB, GDAL y tippecanoe, con controles automáticos en cada paso: las áreas de las subcuencas deben sumar exactamente el área de la cuenca. Cada valor sale de un campo de la fuente; si no hay fuente, queda vacío, y los valores modelados de HydroATLAS están indicados como tales.",
+        },
         kkapp: {
           badge: "App Web",
-          tag: "Nuevo!",
           desc: "Encontrar un baño público limpio y disponible es un problema real en las ciudades. Como único desarrollador, diseñé y construí KKApp de punta a punta: un mapa colaborativo de baños con horarios, costos y fotos. Aposté por Next.js con TypeScript en el frontend y una API en NestJS con búsqueda geoespacial, autenticación por roles y un flujo de moderación donde los administradores aprueban cada baño enviado. Hoy está en producción en kkapp.es, recibiendo aportes de usuarios reales.",
         },
         colchoncito: {
@@ -261,9 +266,13 @@ export const translations: Record<Lang, Translation> = {
       preview: "Preview",
       closeAria: "Close",
       items: {
+        rionegro: {
+          badge: "Hydrology",
+          tag: "New!",
+          desc: "Interactive satellite map of the Río Negro basin in Argentine Patagonia (Limay and Neuquén rivers). The design is dark and minimal: only the river network and a strip of land around it are visible, with a \"visible land\" slider. Tap any of its 8,016 river reaches for a profile with length, gradient, Strahler order, discharge and dam regulation, or drill into 25 sub-basins across up to four levels. I built my own data pipeline with DuckDB, GDAL and tippecanoe, with automatic checks at every step: sub-basin areas must sum exactly to the basin area. Every value comes from a source field; if there's no source, it stays empty, and modeled HydroATLAS values are labeled as such.",
+        },
         kkapp: {
           badge: "Web App",
-          tag: "New!",
           desc: "Finding a clean, available public restroom in a city is a real problem. As the sole developer, I designed and built KKApp end to end: a collaborative map of restrooms with opening hours, costs and photos. I chose Next.js with TypeScript for the frontend and a NestJS API with geospatial search, role-based authentication and a moderation flow where admins approve every submitted restroom. It's live in production at kkapp.es, receiving contributions from real users.",
         },
         colchoncito: {
