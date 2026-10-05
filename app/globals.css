@@ -876,7 +876,8 @@ footer {
     display: none;
   }
   .hero-name {
-    font-size: clamp(44px, 14vw, 80px);
+    /* "Maggioni" is ~7x the font size wide; fit it between the 20px gutters */
+    font-size: clamp(32px, calc((100vw - 40px) / 7.4), 80px);
     letter-spacing: -2px;
   }
   .section-title {
