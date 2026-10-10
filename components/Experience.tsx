@@ -7,22 +7,42 @@ export default function Experience() {
   const t = translations[lang].experience;
 
   return (
-    <section id="experience">
-      <div className="experience-inner">
-        <div className="reveal">
-          <div className="section-label">{t.label}</div>
-          <h2 className="section-title">
-            {t.title.pre}
-            <em>{t.title.em}</em>
-          </h2>
+    <section id="experience" className="experience">
+      <div className="experience-head">
+        <div className="label">(04) {t.label}</div>
+        <h2 className="display">
+          {t.title.pre}
+          <br />
+          <em>{t.title.em}</em>
+        </h2>
+      </div>
+      <div className="timeline" data-exp>
+        <div className="timeline-rail">
+          <div data-line />
         </div>
-        <div className="timeline">
-          {t.jobs.map((job, i) => (
-            <div key={i} className="timeline-item">
-              <div className="timeline-period">{job.period}</div>
-              <div className="timeline-role">{job.role}</div>
-              <div className="timeline-company">{job.company}</div>
-              <p className="timeline-desc">{job.desc}</p>
+        {t.jobs.map((job, i) => (
+          <div key={i} className="job" data-item data-reveal>
+            <span className="job-dot" />
+            <div className="label muted">{job.period}</div>
+            <h3>
+              {job.role}
+              {job.company && ` — ${job.company}`}
+            </h3>
+            <p>{job.desc}</p>
+          </div>
+        ))}
+        <div className="education" data-reveal>
+          {[
+            [t.educationLabel, t.education],
+            [t.certificationsLabel, t.certifications],
+          ].map(([label, items]) => (
+            <div key={label as string}>
+              <div className="label acc">{label}</div>
+              {(items as string[]).map((item, i) => (
+                <div key={item} className={i ? "muted-line" : undefined}>
+                  {item}
+                </div>
+              ))}
             </div>
           ))}
         </div>

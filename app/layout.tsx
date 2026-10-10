@@ -1,26 +1,25 @@
 import type { Metadata } from "next";
-import { Syne, DM_Mono, Instrument_Serif } from "next/font/google";
+import { Familjen_Grotesk, JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { themeInitScript } from "@/components/useTheme";
 
-const syne = Syne({
+const grotesk = Familjen_Grotesk({
   subsets: ["latin"],
-  weight: ["400", "700", "800"],
-  variable: "--font-syne",
+  weight: ["400", "500", "600"],
+  variable: "--font-sans",
 });
 
-const dmMono = DM_Mono({
+const mono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["300", "400"],
-  style: ["normal", "italic"],
-  variable: "--font-dm-mono",
+  weight: ["400", "500"],
+  variable: "--font-mono",
 });
 
 const instrumentSerif = Instrument_Serif({
   subsets: ["latin"],
   weight: ["400"],
   style: ["normal", "italic"],
-  variable: "--font-instrument-serif",
+  variable: "--font-serif",
 });
 
 const BASE_URL = "https://maggioniduffy.vercel.app";
@@ -66,13 +65,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="es" suppressHydrationWarning>
+    <html
+      lang="es"
+      suppressHydrationWarning
+      className={`${grotesk.variable} ${mono.variable} ${instrumentSerif.variable}`}
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
-      <body
-        className={`${syne.variable} ${dmMono.variable} ${instrumentSerif.variable}`}
-      >
+      <body>
         {children}
       </body>
     </html>

@@ -1,73 +1,227 @@
 "use client";
+import { useEffect, useRef } from "react";
 import { useLanguage } from "./LanguageContext";
 import { translations } from "@/lib/translations";
+import Contours from "./Contours";
+
+const NIGHT = "#15130E";
+const CREAM = "236,231,220";
+
+function noise(x: number, y: number) {
+  const h = (i: number, j: number) => {
+    const s = Math.sin(i * 127.1 + j * 311.7) * 43758.5453;
+    return s - Math.floor(s);
+  };
+  const xi = Math.floor(x),
+    yi = Math.floor(y),
+    xf = x - xi,
+    yf = y - yi;
+  const u = xf * xf * (3 - 2 * xf),
+    v = yf * yf * (3 - 2 * yf);
+  const a = h(xi, yi),
+    b = h(xi + 1, yi),
+    c = h(xi, yi + 1),
+    d = h(xi + 1, yi + 1);
+  return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+}
+
+function fbm(x: number, y: number) {
+  let s = 0,
+    a = 0.5,
+    f = 1;
+  for (let i = 0; i < 4; i++) {
+    s += a * noise(x * f, y * f);
+    f *= 2;
+    a *= 0.5;
+  }
+  return s;
+}
+
+// Ridge-line terrain with a sun and one accent "river" line — a nod to the
+// Limay–Neuquén basin work.
+function drawTerrain(
+  cv: HTMLCanvasElement,
+  t: number,
+  acc: string,
+  figure: string,
+  motion: number
+) {
+  const dpr = Math.min(2, window.devicePixelRatio || 1);
+  const W = cv.clientWidth,
+    H = cv.clientHeight;
+  if (!W || !H) return;
+  if (cv.width !== Math.round(W * dpr) || cv.height !== Math.round(H * dpr)) {
+    cv.width = Math.round(W * dpr);
+    cv.height = Math.round(H * dpr);
+  }
+  const ctx = cv.getContext("2d");
+  if (!ctx) return;
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  ctx.fillStyle = NIGHT;
+  ctx.fillRect(0, 0, W, H);
+
+  ctx.fillStyle = `rgba(${CREAM},.07)`;
+  for (let x = 16; x < W; x += 28)
+    for (let y = 16; y < H * 0.5; y += 28) ctx.fillRect(x, y, 1, 1);
+
+  const rows = 56,
+    top = H * 0.16,
+    bot = H * 1.02,
+    step = Math.max(6, W / 180),
+    time = t * 0.00006 * motion;
+
+  const sun = { x: W * 0.74, y: H * 0.3, r: Math.min(W, H) * 0.13 };
+  ctx.fillStyle = acc;
+  ctx.beginPath();
+  ctx.arc(sun.x, sun.y, sun.r, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.fillStyle = NIGHT;
+  for (let i = 0; i < 7; i++) {
+    const yy = sun.y + sun.r * (0.15 + i * 0.13);
+    ctx.fillRect(sun.x - sun.r, yy, sun.r * 2, 2 + i * 1.6);
+  }
+
+  const riverRow = Math.round(rows * 0.62);
+  for (let r = 0; r < rows; r++) {
+    const p = r / (rows - 1),
+      y0 = top + (bot - top) * Math.pow(p, 1.35);
+    const amp = H * (0.05 + 0.2 * (1 - p) * (1 - p) + 0.04);
+    const pts: [number, number][] = [];
+    ctx.beginPath();
+    ctx.moveTo(-10, H + 10);
+    for (let x = -10; x <= W + 10; x += step) {
+      const nx = x / W;
+      const ridge = Math.exp(-Math.pow((nx - 0.32 - 0.15 * Math.sin(p * 3)) / 0.28, 2));
+      const n = fbm(nx * 4 + time * 2, r * 0.22 - time * 3);
+      const y = y0 - Math.pow(n, 1.6) * amp * (0.35 + ridge * 1.4);
+      pts.push([x, y]);
+      ctx.lineTo(x, y);
+    }
+    ctx.lineTo(W + 10, H + 10);
+    ctx.closePath();
+    ctx.fillStyle = NIGHT;
+    ctx.fill();
+
+    ctx.beginPath();
+    pts.forEach(([x, y], j) => (j ? ctx.lineTo(x, y) : ctx.moveTo(x, y)));
+    if (r === riverRow) {
+      ctx.strokeStyle = acc;
+      ctx.lineWidth = 2;
+      ctx.globalAlpha = 1;
+    } else {
+      ctx.strokeStyle = `rgb(${CREAM})`;
+      ctx.lineWidth = 1;
+      ctx.globalAlpha = 0.18 + 0.55 * (1 - p);
+    }
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  ctx.font = "500 11px 'JetBrains Mono', monospace";
+  ctx.fillStyle = `rgba(${CREAM},.55)`;
+  ctx.fillText(figure, 32, H * 0.16 - 18);
+}
 
 export default function Hero() {
   const { lang } = useLanguage();
   const t = translations[lang].hero;
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const heroRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const cv = canvasRef.current;
+    const hero = heroRef.current;
+    if (!cv || !hero) return;
+    const acc =
+      getComputedStyle(document.documentElement).getPropertyValue("--acc").trim() ||
+      "#3873b3";
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (reduced) {
+      const draw = () => drawTerrain(cv, 0, acc, t.figure, 0);
+      draw();
+      window.addEventListener("resize", draw);
+      return () => window.removeEventListener("resize", draw);
+    }
+
+    // Only animate while the hero is on screen.
+    let raf = 0;
+    let visible = true;
+    const loop = (ts: number) => {
+      drawTerrain(cv, ts, acc, t.figure, 1);
+      raf = requestAnimationFrame(loop);
+    };
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !visible) raf = requestAnimationFrame(loop);
+      if (!e.isIntersecting) cancelAnimationFrame(raf);
+      visible = e.isIntersecting;
+    });
+    io.observe(hero);
+    raf = requestAnimationFrame(loop);
+    return () => {
+      io.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [t.figure]);
 
   return (
-    <section className="hero" id="home">
-      <div className="hero-grid-bg" />
-      <div className="hero-glow" />
-      <div className="hero-glow2" />
-      <div className="hero-content">
-        {/* Profile preview */}
+    <section id="top" className="hero" data-hero ref={heroRef}>
+      <div className="hero-img" data-hero-img>
+        <canvas ref={canvasRef} aria-hidden />
+      </div>
+      <div className="hero-shade" />
+      <svg
+        className="hero-contour"
+        data-contour
+        viewBox="0 0 100 100"
+        preserveAspectRatio="xMidYMid slice"
+        aria-hidden
+      >
+        <g fill="none" stroke="#ECE7DC" strokeOpacity=".28" strokeWidth="1">
+          <Contours
+            cx={74}
+            cy={34}
+            rings={[
+              [0.25, 4],
+              [0.5, 9],
+              [0.78, 14],
+              [1.08, 20],
+              [1.4, 27],
+              [1.75, 33],
+              [2.15, 40],
+              [2.6, 46],
+            ]}
+          />
+        </g>
+        <circle cx="74" cy="34" r=".6" fill="var(--acc)" />
+      </svg>
 
-        <div className="hero-tag" style={{ marginTop: "28px" }}>
-          {t.tag}
+      <div className="hero-txt" data-hero-txt>
+        <div className="hero-meta intro-1">
+          <span className="hero-avail">
+            <span className="dot" />
+            {t.tag}
+          </span>
+          <span>{t.role} — Córdoba, AR</span>
         </div>
         <h1 className="hero-name">
-          Faustino
-          <br />
-          <span className="line2">Maggioni</span>
-          <br />
-          <span className="accent">Duffy</span>
+          <span className="sr-only">Faustino Maggioni Duffy — </span>
+          <span className="hero-line line-1" data-h1 aria-hidden>
+            Faustino
+          </span>
+          <span className="hero-line line-2" data-h2 aria-hidden>
+            Maggioni <span className="acc">Duffy</span>
+          </span>
         </h1>
-        <p className="hero-desc">{t.desc}</p>
-        <div className="hero-cta">
-          <a href="#projects" className="btn-primary">
-            <svg
-              width="16"
-              height="16"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path d="M4 6h16M4 12h16M4 18h7" />
-            </svg>
-            {t.ctaProjects}
-          </a>
-          <a href="#contact" className="btn-ghost">
-            <svg
-              width="16"
-              height="16"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2}
-            >
-              <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-            </svg>
-            {t.ctaWork}
-          </a>
-          <a
-            href="https://www.linkedin.com/in/maggioniduffy/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-ghost"
-          >
-            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-            </svg>
-            LinkedIn
-          </a>
+        <div className="hero-foot intro-2">
+          <p>{t.desc}</p>
+          <div className="hero-scroll">
+            <span className="cue-track">
+              <span className="cue" data-cue />
+            </span>
+            {t.scroll}
+          </div>
         </div>
-      </div>
-      <div className="hero-scroll">
-        <div className="scroll-line" />
-        {t.scroll}
       </div>
     </section>
   );

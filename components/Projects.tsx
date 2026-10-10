@@ -1,51 +1,27 @@
 "use client";
-import { useRef, useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "./LanguageContext";
 import { translations, type Lang } from "@/lib/translations";
 
-const ExternalIcon = () => (
-  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-    <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3" />
-  </svg>
-);
-
-const GitHubIcon = () => (
-  <svg fill="currentColor" viewBox="0 0 24 24">
-    <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z" />
-  </svg>
-);
-
-const PlayIcon = () => (
-  <svg fill="currentColor" viewBox="0 0 24 24" width="22" height="22">
-    <path d="M8 5v14l11-7z" />
-  </svg>
-);
-
 const CloseIcon = () => (
-  <svg
-    fill="none"
-    viewBox="0 0 24 24"
-    stroke="currentColor"
-    strokeWidth={2}
-    width="24"
-    height="24"
-  >
+  <svg fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2} width="24" height="24">
     <path d="M6 18L18 6M6 6l12 12" />
   </svg>
 );
 
 type Project = {
   num: string;
-  badge: string;
-  accent: string;
   name: string;
-  nameExtra?: string;
+  badge: string;
   tag?: string;
+  summary: string;
   desc: string;
   tech: string[];
-  live: string | null;
-  github: string | null;
-  video?: string;
+  live: string;
+  github: string;
+  /** Projects without a demo video show a still: light/dark follow the theme, `feature` fills the modal. */
+  media: { video: string } | { light: string; dark: string; feature: string };
+  tone: "paper" | "acc" | "dusk";
 };
 
 const getProjects = (lang: Lang): Project[] => {
@@ -53,63 +29,53 @@ const getProjects = (lang: Lang): Project[] => {
   return [
     {
       num: "01",
-      badge: t.rionegro.badge,
-      accent: "#38bdf8",
       name: "Río Negro Basin Explorer",
-      tag: t.rionegro.tag,
-      desc: t.rionegro.desc,
-      tech: [
-        "Next.js",
-        "TypeScript",
-        "MapLibre GL JS",
-        "PMTiles",
-        "DuckDB",
-        "GDAL",
-      ],
+      ...t.rionegro,
+      tech: ["Next.js", "TypeScript", "MapLibre GL", "PMTiles", "DuckDB", "GDAL"],
       live: "https://rionegrobasinexplorer.vercel.app/",
       github: "https://github.com/maggioniduffy/rionegro-basin-explorer",
-      video: "/videos/rionegro.mp4",
+      media: { video: "/videos/rionegro.mp4" },
+      tone: "paper",
     },
     {
       num: "02",
-      badge: t.kkapp.badge,
-      accent: "#00e5a0",
       name: "KKApp",
-      desc: t.kkapp.desc,
+      ...t.kkapp,
       tech: ["Next.js", "TypeScript", "NestJS", "PostgreSQL"],
       live: "https://kkapp.es/",
       github: "https://github.com/maggioniduffy/conpermiso",
-      video: "/videos/kkapp.mp4",
+      media: {
+        light: "/images/kkapp-light.png",
+        dark: "/images/kkapp-dark.png",
+        feature: "/images/kkapp-blue.png",
+      },
+      tone: "acc",
     },
     {
       num: "03",
-      badge: t.colchoncito.badge,
-      accent: "#7b61ff",
       name: "Colchoncito",
-      desc: t.colchoncito.desc,
+      ...t.colchoncito,
       tech: ["Next.js", "TypeScript", "Google Auth", "Vercel"],
       live: "https://colchoncito.vercel.app/",
       github: "https://github.com/maggioniduffy/colchoncito",
-      video: "/videos/colchoncito.mp4",
+      media: {
+        light: "/images/colchoncito.png",
+        dark: "/images/colchoncito.png",
+        feature: "/images/colchoncito.png",
+      },
+      tone: "dusk",
     },
   ];
 };
 
-// ─── Modal fullscreen ───────────────────────────────────────────────
-function VideoModal({ src, onClose }: { src: string; onClose: () => void }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
+function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
   const { lang } = useLanguage();
   const t = translations[lang].projects;
 
   useEffect(() => {
-    videoRef.current?.play();
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = "hidden";
-
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = "";
@@ -117,188 +83,139 @@ function VideoModal({ src, onClose }: { src: string; onClose: () => void }) {
   }, [onClose]);
 
   return (
-    <div className="video-modal-backdrop" onClick={onClose}>
-      <button
-        className="video-modal-close"
-        onClick={onClose}
-        aria-label={t.closeAria}
-      >
+    <div className="modal" onClick={onClose} role="dialog" aria-modal aria-label={p.name}>
+      <button className="modal-close" onClick={onClose} aria-label={t.closeAria}>
         <CloseIcon />
       </button>
-      <div className="video-modal-content" onClick={(e) => e.stopPropagation()}>
-        <video
-          ref={videoRef}
-          src={src}
-          controls
-          playsInline
-          className="video-modal-player"
-        />
+      <div className="modal-body" onClick={(e) => e.stopPropagation()}>
+        {"video" in p.media ? (
+          <video src={p.media.video} controls autoPlay playsInline />
+        ) : (
+          <img src={p.media.feature} alt={p.name} />
+        )}
+        <div className="modal-info">
+          <div className="label acc">
+            {p.num} · {p.badge}
+          </div>
+          <h3>{p.name}</h3>
+          <p>{p.desc}</p>
+          <div className="card-tech">{p.tech.join(" · ")}</div>
+          <div className="card-links">
+            <a href={p.live} target="_blank" rel="noopener noreferrer">
+              {t.liveSite} ↗
+            </a>
+            <a href={p.github} target="_blank" rel="noopener noreferrer">
+              GitHub ↗
+            </a>
+          </div>
+        </div>
       </div>
     </div>
   );
 }
 
-// ─── Card ───────────────────────────────────────────────────────────
-function ProjectCard({ p }: { p: Project }) {
-  const thumbRef = useRef<HTMLVideoElement>(null);
-  const [modalOpen, setModalOpen] = useState(false);
+function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
   const { lang } = useLanguage();
   const t = translations[lang].projects;
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const cta = "video" in p.media ? t.watchDemo : t.viewProject;
 
-  const handleMouseEnter = () => thumbRef.current?.play();
-  const handleMouseLeave = () => {
-    const v = thumbRef.current;
+  // Play the preview loop only while the card is on screen.
+  useEffect(() => {
+    const v = videoRef.current;
     if (!v) return;
-    v.pause();
-    v.currentTime = 0;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const io = new IntersectionObserver(
+      ([e]) => (e.isIntersecting ? v.play().catch(() => {}) : v.pause()),
+      { threshold: 0.25 }
+    );
+    io.observe(v);
+    return () => io.disconnect();
+  }, []);
+
+  const tilt = (e: React.MouseEvent<HTMLElement>) => {
+    const el = e.currentTarget;
+    const b = el.getBoundingClientRect();
+    const x = (e.clientX - b.left) / b.width - 0.5;
+    const y = (e.clientY - b.top) / b.height - 0.5;
+    el.style.transform = `perspective(1000px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateZ(10px)`;
+  };
+  const untilt = (e: React.MouseEvent<HTMLElement>) => {
+    e.currentTarget.style.transform = "none";
   };
 
   return (
-    <>
-      <div
-        className="project-card reveal"
-        style={{ ["--card-accent" as string]: p.accent }}
-        onMouseEnter={p.video ? handleMouseEnter : undefined}
-        onMouseLeave={p.video ? handleMouseLeave : undefined}
-      >
-        {p.video && (
-          <div
-            className="project-video-wrap"
-            onClick={() => setModalOpen(true)}
-          >
-            <video
-              ref={thumbRef}
-              src={p.video}
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              className="project-video"
-            />
-            <div className="project-video-overlay">
-              <PlayIcon />
-              <span>{t.preview}</span>
-            </div>
-          </div>
+    <article className={`card card-${p.tone}`} onMouseMove={tilt} onMouseLeave={untilt}>
+      <button className="card-media" onClick={onOpen} aria-label={`${cta}: ${p.name}`}>
+        {"video" in p.media ? (
+          <video ref={videoRef} src={p.media.video} muted loop playsInline preload="metadata" />
+        ) : (
+          <>
+            <img className="media-light" src={p.media.light} alt="" />
+            <img className="media-dark" src={p.media.dark} alt="" />
+          </>
         )}
-
-        <div className="project-number">
-          <span>{p.num}</span>
-          <div style={{ display: "flex", gap: "6px", alignItems: "center" }}>
-            {p.tag && (
-              <span
-                className="project-badge"
-                style={{
-                  color:
-                    "color-mix(in srgb, var(--card-accent), #000 var(--accent-ink))",
-                  borderColor: "var(--card-accent)",
-                  background: "rgba(var(--tint-rgb), 0.03)",
-                }}
-              >
-                {p.tag}
-              </span>
-            )}
-            <span className="project-badge">{p.badge}</span>
+        <span className="card-play">{"video" in p.media ? `▶ ${cta}` : `${cta} ↗`}</span>
+      </button>
+      <div className="card-info">
+        <div className="card-num">{p.num}</div>
+        <div className="card-body">
+          <div className="card-head">
+            <h3>{p.name}</h3>
+            <span className="card-badge">
+              {p.tag ? `${p.tag} · ` : ""}
+              {p.badge}
+            </span>
           </div>
-        </div>
-
-        <div className="project-name">
-          {p.nameExtra ? (
-            <>
-              {p.name.replace(p.nameExtra, "")}
-              <span style={{ color: "var(--muted)" }}>{p.nameExtra}</span>
-            </>
-          ) : (
-            p.name
-          )}
-        </div>
-
-        <p className="project-desc">{p.desc}</p>
-
-        <div className="project-tech">
-          {p.tech.map((tech) => (
-            <span key={tech} className="tech-tag">
-              {tech}
-            </span>
-          ))}
-        </div>
-
-        <div className="project-links">
-          {p.live ? (
-            <a
-              href={p.live}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="project-link"
-            >
-              <ExternalIcon />
-              {t.liveSite}
+          <p>{p.summary}</p>
+          <div className="card-tech">{p.tech.join(" · ")}</div>
+          <div className="card-links">
+            <a href={p.live} target="_blank" rel="noopener noreferrer">
+              {t.liveSite} ↗
             </a>
-          ) : (
-            <span
-              className="project-link"
-              style={{ opacity: 0.35, cursor: "not-allowed" }}
-            >
-              <ExternalIcon />
-              {t.liveSite}
-            </span>
-          )}
-          {p.github && (
-            <a
-              href={p.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="project-link"
-            >
-              <GitHubIcon />
-              GitHub
+            <a href={p.github} target="_blank" rel="noopener noreferrer">
+              GitHub ↗
             </a>
-          )}
-          {p.video && (
-            <button
-              className="project-link"
-              onClick={() => setModalOpen(true)}
-              style={{
-                background: "none",
-                border: "none",
-                padding: 0,
-                cursor: "pointer",
-              }}
-            >
-              <PlayIcon />
-              {t.watchDemo}
-            </button>
-          )}
+          </div>
         </div>
       </div>
-
-      {modalOpen && p.video && (
-        <VideoModal src={p.video} onClose={() => setModalOpen(false)} />
-      )}
-    </>
+    </article>
   );
 }
 
-// ─── Section ────────────────────────────────────────────────────────
 export default function Projects() {
   const { lang } = useLanguage();
   const t = translations[lang].projects;
   const projects = getProjects(lang);
+  const [open, setOpen] = useState<Project | null>(null);
 
   return (
-    <section id="projects">
-      <div className="projects-header reveal">
-        <div className="section-label">{t.label}</div>
-        <h2 className="section-title">
-          {t.title.pre}
-          <em>{t.title.em}</em>
-        </h2>
+    <section id="projects" className="work" data-pin>
+      <div className="work-sticky">
+        <div className="work-top label">
+          <span>(02) {t.label}</span>
+          <span>
+            <span data-count>01</span> / {String(projects.length).padStart(2, "0")}
+          </span>
+        </div>
+        <div className="work-track" data-track>
+          <div className="work-intro">
+            <h2>
+              {t.title.pre}
+              <em>{t.title.em}</em>
+            </h2>
+            <p>{t.intro}</p>
+          </div>
+          {projects.map((p) => (
+            <ProjectCard key={p.num} p={p} onOpen={() => setOpen(p)} />
+          ))}
+          <div className="work-spacer" />
+        </div>
+        <div className="work-bar">
+          <div data-pbar />
+        </div>
       </div>
-      <div className="projects-grid">
-        {projects.map((p) => (
-          <ProjectCard key={p.num} p={p} />
-        ))}
-      </div>
+      {open && <ProjectModal p={open} onClose={() => setOpen(null)} />}
     </section>
   );
 }
