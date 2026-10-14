@@ -43,7 +43,6 @@ function drawTerrain(
   cv: HTMLCanvasElement,
   t: number,
   acc: string,
-  figure: string,
   motion: number
 ) {
   const dpr = Math.min(2, window.devicePixelRatio || 1);
@@ -116,10 +115,6 @@ function drawTerrain(
     ctx.stroke();
     ctx.globalAlpha = 1;
   }
-
-  ctx.font = "500 11px 'JetBrains Mono', monospace";
-  ctx.fillStyle = `rgba(${CREAM},.55)`;
-  ctx.fillText(figure, 32, H * 0.16 - 18);
 }
 
 export default function Hero() {
@@ -138,7 +133,7 @@ export default function Hero() {
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     if (reduced) {
-      const draw = () => drawTerrain(cv, 0, acc, t.figure, 0);
+      const draw = () => drawTerrain(cv, 0, acc, 0);
       draw();
       window.addEventListener("resize", draw);
       return () => window.removeEventListener("resize", draw);
@@ -148,7 +143,7 @@ export default function Hero() {
     let raf = 0;
     let visible = true;
     const loop = (ts: number) => {
-      drawTerrain(cv, ts, acc, t.figure, 1);
+      drawTerrain(cv, ts, acc, 1);
       raf = requestAnimationFrame(loop);
     };
     const io = new IntersectionObserver(([e]) => {
@@ -162,7 +157,7 @@ export default function Hero() {
       io.disconnect();
       cancelAnimationFrame(raf);
     };
-  }, [t.figure]);
+  }, []);
 
   return (
     <section id="top" className="hero" data-hero ref={heroRef}>

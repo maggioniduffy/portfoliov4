@@ -34,7 +34,6 @@ type Translation = {
     role: string;
     desc: string;
     scroll: string;
-    figure: string;
   };
   about: {
     label: string;
@@ -103,7 +102,6 @@ export const translations: Record<Lang, Translation> = {
       role: "Desarrollador full-stack",
       desc: "Desarrollador full-stack de Córdoba, Argentina — construyendo productos digitales limpios, escalables y bellamente diseñados.",
       scroll: "Desplazá",
-      figure: "FIG. 01 — TERRENO SINTÉTICO / LIMAY–NEUQUÉN",
     },
     about: {
       label: "Sobre mí",
@@ -259,7 +257,6 @@ export const translations: Record<Lang, Translation> = {
       role: "Full-stack developer",
       desc: "Full-stack developer from Córdoba, Argentina — building clean, scalable, beautifully designed digital products.",
       scroll: "Scroll",
-      figure: "FIG. 01 — SYNTHETIC TERRAIN / LIMAY–NEUQUÉN",
     },
     about: {
       label: "About me",
