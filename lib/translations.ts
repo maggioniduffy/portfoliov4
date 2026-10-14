@@ -55,6 +55,7 @@ type Translation = {
       rionegro: ProjectCopy;
       kkapp: ProjectCopy;
       colchoncito: ProjectCopy;
+      things: ProjectCopy;
     };
   };
   marquee: string[];
@@ -166,6 +167,13 @@ export const translations: Record<Lang, Translation> = {
           summary:
             "Tracker de finanzas personales para la realidad argentina de doble moneda — administrá tu dinero en pesos y dólares sin planillas.",
           desc: "Tracker de finanzas personales diseñado para la realidad argentina de doble moneda — administrá tu dinero en pesos y dólares sin planillas. Iniciá sesión con Google y tomá el control.",
+        },
+        things: {
+          badge: "Productividad",
+          tag: "Nuevo",
+          summary:
+            "Guardá cualquier cosa y encontrala de nuevo: links, archivos y notas, ordenados por formato, en colecciones y con búsqueda rápida.",
+          desc: "Things es una app para guardar links, archivos y notas para más tarde. Todo se ordena por formato, se organiza en colecciones y se encuentra de nuevo con búsqueda rápida. Construida con Next.js 16, Supabase y Tailwind CSS v4, con tests de base de datos, unitarios y end-to-end con Playwright.",
         },
       },
     },
@@ -313,6 +321,13 @@ export const translations: Record<Lang, Translation> = {
           summary:
             "Personal finance tracker for Argentina's dual-currency reality — manage your money in pesos and dollars without spreadsheets.",
           desc: "Personal finance tracker designed for Argentina's dual-currency reality — manage your money in pesos and dollars without spreadsheets. Sign in with Google and take control.",
+        },
+        things: {
+          badge: "Productivity",
+          tag: "New",
+          summary:
+            "Save anything, find it again: links, files and notes, sorted by format, organised into collections and found with fast search.",
+          desc: "Things is a save-for-later app for links, files and notes. Everything is sorted by format, organised into collections and found again with fast search. Built with Next.js 16, Supabase and Tailwind CSS v4, with database, unit and Playwright end-to-end tests.",
         },
       },
     },

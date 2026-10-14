@@ -29,16 +29,30 @@ const getProjects = (lang: Lang): Project[] => {
   return [
     {
       num: "01",
-      name: "Río Negro Basin Explorer",
-      ...t.rionegro,
-      tech: ["Next.js", "TypeScript", "MapLibre GL", "PMTiles", "DuckDB", "GDAL"],
-      live: "https://rionegrobasinexplorer.vercel.app/",
-      github: "https://github.com/maggioniduffy/rionegro-basin-explorer",
-      media: { video: "/videos/rionegro.mp4" },
+      name: "Things",
+      ...t.things,
+      tech: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS", "Playwright"],
+      live: "https://thingzz.vercel.app/app",
+      github: "https://github.com/maggioniduffy/things",
+      media: {
+        light: "/images/things.png",
+        dark: "/images/things.png",
+        feature: "/images/things.png",
+      },
       tone: "paper",
     },
     {
       num: "02",
+      name: "Basin Explorer",
+      ...t.rionegro,
+      tech: ["Next.js", "TypeScript", "MapLibre GL", "PMTiles", "DuckDB", "GDAL"],
+      live: "https://basinexplorer.vercel.app/",
+      github: "https://github.com/maggioniduffy/rionegro-basin-explorer",
+      media: { video: "/videos/rionegro.mp4" },
+      tone: "dusk",
+    },
+    {
+      num: "03",
       name: "KKApp",
       ...t.kkapp,
       tech: ["Next.js", "TypeScript", "NestJS", "PostgreSQL"],
@@ -52,7 +66,7 @@ const getProjects = (lang: Lang): Project[] => {
       tone: "acc",
     },
     {
-      num: "03",
+      num: "04",
       name: "Colchoncito",
       ...t.colchoncito,
       tech: ["Next.js", "TypeScript", "Google Auth", "Vercel"],
@@ -63,7 +77,7 @@ const getProjects = (lang: Lang): Project[] => {
         dark: "/images/colchoncito.png",
         feature: "/images/colchoncito.png",
       },
-      tone: "dusk",
+      tone: "paper",
     },
   ];
 };
