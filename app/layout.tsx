@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Familjen_Grotesk, JetBrains_Mono, Instrument_Serif } from "next/font/google";
 import "./globals.css";
 import { themeInitScript } from "@/components/useTheme";
+import { Analytics } from "@vercel/analytics/next";
 
 const grotesk = Familjen_Grotesk({
   subsets: ["latin"],
@@ -75,6 +76,7 @@ export default function RootLayout({
       </head>
       <body>
         {children}
+        <Analytics />
       </body>
     </html>
   );
