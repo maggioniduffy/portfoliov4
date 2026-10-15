@@ -179,8 +179,8 @@ export const translations: Record<Lang, Translation> = {
     testimonials: {
       label: "Lo que dicen",
       title: { pre: "Clientes que ", em: "confían." },
-      clientName: "Nombre del cliente",
-      clientRole: "Cargo",
+      clientName: "Fernando Garriga",
+      clientRole: "Owner",
       quote:
         "Trabajar con Faustino fue una experiencia excelente. Entendió nuestras necesidades desde el primer momento y el resultado superó nuestras expectativas.",
     },
@@ -332,8 +332,8 @@ export const translations: Record<Lang, Translation> = {
     testimonials: {
       label: "What they say",
       title: { pre: "Clients who ", em: "trust." },
-      clientName: "Client name",
-      clientRole: "Role",
+      clientName: "Fernando Garriga",
+      clientRole: "Owner",
       quote:
         "Working with Faustino was an excellent experience. He understood our needs from day one and the result exceeded our expectations.",
     },
