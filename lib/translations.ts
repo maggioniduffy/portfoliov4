@@ -221,7 +221,7 @@ export const translations: Record<Lang, Translation> = {
       ],
       educationLabel: "Educación",
       education: [
-        "Lic. en Ciencias de la Computación — Universidad Nacional del Comahue",
+        "Analista Programador Universitario — Universidad Nacional del Comahue",
         "Ingeniería Ambiental (en curso) — Universidad Nacional de Córdoba",
       ],
       certificationsLabel: "Certificaciones",
