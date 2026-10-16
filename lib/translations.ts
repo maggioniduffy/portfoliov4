@@ -229,7 +229,7 @@ export const translations: Record<Lang, Translation> = {
         title: { pre: "Controlado en cada ", em: "paso." },
         body: [
           "Los datos se construyen con un pipeline de pasos en TypeScript que usan DuckDB y tippecanoe.",
-          "Cada paso escribe un report.json y corre controles automáticos: por ejemplo, las áreas de las subcuencas deben sumar exactamente el área de la cuenca.",
+          "Cada paso escribe un report.json y corre controles automáticos.",
         ],
       },
       guardrail: {
@@ -444,7 +444,7 @@ export const translations: Record<Lang, Translation> = {
         title: { pre: "Checked at every ", em: "step." },
         body: [
           "The data is built by a pipeline of TypeScript steps that run DuckDB and tippecanoe.",
-          "Each step writes a report.json and runs automated checks: for example, sub-basin areas must sum exactly to the basin area.",
+          "Each step writes a report.json and runs automated checks.",
         ],
       },
       guardrail: {

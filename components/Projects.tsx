@@ -42,20 +42,6 @@ const getProjects = (lang: Lang): Project[] => {
     },
     {
       num: "02",
-      name: "KKApp",
-      ...t.kkapp,
-      tech: ["Next.js", "TypeScript", "NestJS", "PostgreSQL"],
-      live: "https://kkapp.es/",
-      github: "https://github.com/maggioniduffy/conpermiso",
-      media: {
-        light: "/images/kkapp-light.png",
-        dark: "/images/kkapp-dark.png",
-        feature: "/images/kkapp-blue.png",
-      },
-      tone: "acc",
-    },
-    {
-      num: "03",
       name: "Things",
       ...t.things,
       tech: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS", "Playwright"],
@@ -67,6 +53,20 @@ const getProjects = (lang: Lang): Project[] => {
         feature: "/images/things.png",
       },
       tone: "paper",
+    },
+    {
+      num: "03",
+      name: "KKApp",
+      ...t.kkapp,
+      tech: ["Next.js", "TypeScript", "NestJS", "PostgreSQL"],
+      live: "https://kkapp.es/",
+      github: "https://github.com/maggioniduffy/conpermiso",
+      media: {
+        light: "/images/kkapp-light.png",
+        dark: "/images/kkapp-dark.png",
+        feature: "/images/kkapp-blue.png",
+      },
+      tone: "acc",
     },
     {
       num: "04",
