@@ -108,29 +108,22 @@ export const translations: Record<Lang, Translation> = {
       paragraphs: [
         [
           {
-            text: "Soy un desarrollador full-stack apasionado, creativo y curioso, con ",
-          },
-          {
-            text: "sólidos fundamentos y un ojo agudo para el diseño",
-            strong: true,
-          },
-          {
-            text: ". Me enfoco en producir software escalable que sigue las mejores prácticas — desde la arquitectura hasta el último píxel.",
+            text: "Ingeniero full-stack con más de 3 años de experiencia construyendo y lanzando aplicaciones web en producción de punta a punta con TypeScript, React, Next.js, NestJS y PostgreSQL.",
           },
         ],
         [
+          { text: "Me especializo en " },
           {
-            text: "Con formación universitaria y autodidacta, me adapto rápidamente a distintos requisitos gracias a la amplitud de mi preparación. He desarrollado desde ",
+            text: "productos geoespaciales y pipelines de datos con validación automatizada",
+            strong: true,
           },
-          { text: "plataformas de e-commerce", strong: true },
-          { text: " y " },
-          { text: "herramientas financieras.", strong: true },
+          { text: "." },
         ],
         [
           { text: "Basado en " },
           { text: "Córdoba, Argentina", strong: true },
           {
-            text: ". Disponible para trabajo remoto en cualquier parte del mundo.",
+            text: ", disponible para trabajo remoto en cualquier parte del mundo.",
           },
         ],
       ],
@@ -150,9 +143,8 @@ export const translations: Record<Lang, Translation> = {
         rionegro: {
           badge: "Hidrología",
           tag: "Nuevo",
-          summary:
-            "Mapa satelital interactivo de la cuenca del Río Negro (ríos Limay y Neuquén) — tocá cualquiera de sus 8.016 tramos o navegá 25 subcuencas. Pipeline de datos propio con controles automáticos en cada paso.",
-          desc: 'Mapa satelital interactivo de la cuenca del Río Negro, en la Patagonia argentina (ríos Limay y Neuquén). El diseño es oscuro y minimalista: solo se ve la red de ríos y una franja de tierra alrededor, con un control de "tierra visible". Tocá cualquiera de sus 8.016 tramos para ver su perfil (longitud, pendiente, orden de Strahler, caudal y regulación por represas) o navegá 25 subcuencas en hasta cuatro niveles. Armé mi propio pipeline de datos con DuckDB, GDAL y tippecanoe, con controles automáticos en cada paso: las áreas de las subcuencas deben sumar exactamente el área de la cuenca. Cada valor sale de un campo de la fuente; si no hay fuente, queda vacío, y los valores modelados de HydroATLAS están indicados como tales.',
+          summary: "Exploradores satelitales de cuencas fluviales argentinas sobre un código compartido: Río Negro (8.016 tramos de río, 25 subcuencas) y las cuencas de Córdoba. Pipeline de datos propio en TypeScript/DuckDB/GDAL con controles automáticos en cada paso; búsqueda en lenguaje natural donde un LLM elige ríos y métricas pero nunca escribe números.",
+          desc: "Exploradores satelitales de cuencas fluviales argentinas sobre un código compartido: Río Negro (8.016 tramos de río, 25 subcuencas) y las cuencas de Córdoba. Pipeline de datos propio en TypeScript/DuckDB/GDAL con controles automáticos en cada paso; búsqueda en lenguaje natural donde un LLM elige ríos y métricas pero nunca escribe números.",
         },
         kkapp: {
           badge: "App Web",
@@ -189,40 +181,41 @@ export const translations: Record<Lang, Translation> = {
       title: { pre: "Dónde ", em: "trabajé." },
       jobs: [
         {
-          period: "Mayo 2025 — Presente · Córdoba, AR",
+          period: "Mayo 2025 — Presente",
           role: "Desarrollador Full-Stack Freelance",
-          company: "",
-          desc: "Diseño, desarrollo y despliegue de aplicaciones web en producción de punta a punta con Next.js, React, TypeScript, NestJS, Supabase y PostgreSQL en Vercel — KKApp, Colchoncito.",
+          company: "Independiente",
+          desc: "Construí y lancé KKApp (kkapp.es) como único desarrollador: frontend en Next.js, API en NestJS/PostgreSQL con búsqueda geoespacial, acceso por roles y moderación de ubicaciones enviadas por usuarios; a cargo del modelado de datos, la autenticación, la UX y el despliegue en producción en Vercel.",
         },
         {
-          period: "Mayo 2023 — Mar 2024 · Remoto",
+          period: "Mayo 2023 — Feb 2024 · Remoto",
           role: "Desarrollador de Software para Entrenamiento de IA",
           company: "Scale AI",
-          desc: "Revisión, corrección y mejora de código en Python, SQL, Java, Go y HTML para pipelines de entrenamiento de LLMs, evaluando velocidad, preparación y completitud.",
+          desc: "Evalué y corregí código generado por IA en Python, SQL, Java, Go y HTML para pipelines de entrenamiento de LLMs, analizando corrección, rendimiento y completitud.",
         },
         {
-          period: "Ago 2022 — Feb 2023 · Remoto",
+          period: "Ago 2022 — Feb 2023",
           role: "Ayudante de Cátedra, Bases de Datos",
           company: "Universidad Nacional del Comahue",
-          desc: "Asistí a estudiantes con álgebra relacional, SQL y fundamentos de SGBD; corregí exámenes con devoluciones individuales.",
+          desc: "Acompañé a estudiantes en álgebra relacional, SQL y fundamentos de SGBD; corregí exámenes y di devoluciones individuales.",
         },
         {
-          period: "Jun 2022 — Ago 2022 · Neuquén, AR",
+          period: "Jun 2022 — Ago 2022 · Remoto",
           role: "Ingeniero de Software Trainee",
           company: "Ensolvers",
-          desc: "Diseño y desarrollo de módulos backend reutilizables con NestJS, PostgreSQL, AWS y Docker para estandarizar los proyectos de la empresa.",
+          desc: "Contribuí al desarrollo backend en Java y construí funcionalidades frontend con React.",
         },
         {
-          period: "Nov 2021 — Ene 2022 · Neuquén, AR",
+          period: "Nov 2021 — Ene 2022",
           role: "Desarrollador de Software, Programa NEST",
           company: "Patagonian Tech",
-          desc: "Desarrollo backend en Java y funcionalidades frontend en React; automatización de QA para el sitio del BID con Playwright y Cucumber JS.",
+          desc: "Automaticé pruebas de QA para el sitio del BID con Playwright y Cucumber JS; diseñé y desarrollé módulos backend reutilizables con NestJS, PostgreSQL, AWS y Docker para estandarizar los proyectos de toda la empresa.",
         },
       ],
       educationLabel: "Educación",
       education: [
-        "Analista Programador Universitario — Universidad Nacional del Comahue",
-        "Ingeniería Ambiental (en curso) — Universidad Nacional de Córdoba",
+        "Analista Programador Universitario — Universidad Nacional del Comahue, 2019–2022",
+        "Ingeniería Ambiental (en curso) — Universidad Nacional de Córdoba, 2023–presente",
+        "Semestre con beca, Software — ITBA, 2022",
       ],
       certificationsLabel: "Certificaciones",
       certifications: [
@@ -263,28 +256,21 @@ export const translations: Record<Lang, Translation> = {
       paragraphs: [
         [
           {
-            text: "I'm a passionate, creative and curious full-stack developer with ",
-          },
-          {
-            text: "solid fundamentals and a sharp eye for design",
-            strong: true,
-          },
-          {
-            text: ". I focus on producing scalable software that follows best practices — from the architecture down to the last pixel.",
+            text: "Full-stack engineer with 3+ years of experience building and shipping production web applications end to end with TypeScript, React, Next.js, NestJS and PostgreSQL.",
           },
         ],
         [
+          { text: "I specialize in " },
           {
-            text: "With both university and self-taught training, I adapt quickly to different requirements thanks to the breadth of my background. I've built everything from ",
+            text: "geospatial products and data pipelines with automated validation",
+            strong: true,
           },
-          { text: "e-commerce platforms", strong: true },
-          { text: " and " },
-          { text: "financial tools.", strong: true },
+          { text: "." },
         ],
         [
           { text: "Based in " },
           { text: "Córdoba, Argentina", strong: true },
-          { text: ". Available for remote work anywhere in the world." },
+          { text: ", available for remote work worldwide." },
         ],
       ],
       coreStack: "Core stack",
@@ -303,9 +289,8 @@ export const translations: Record<Lang, Translation> = {
         rionegro: {
           badge: "Hydrology",
           tag: "New",
-          summary:
-            "Interactive satellite map of the Río Negro basin (Limay and Neuquén rivers) — tap any of 8,016 river reaches or drill into 25 sub-basins. Own data pipeline with automatic checks at every step.",
-          desc: 'Interactive satellite map of the Río Negro basin in Argentine Patagonia (Limay and Neuquén rivers). The design is dark and minimal: only the river network and a strip of land around it are visible, with a "visible land" slider. Tap any of its 8,016 river reaches for a profile with length, gradient, Strahler order, discharge and dam regulation, or drill into 25 sub-basins across up to four levels. I built my own data pipeline with DuckDB, GDAL and tippecanoe, with automatic checks at every step: sub-basin areas must sum exactly to the basin area. Every value comes from a source field; if there\'s no source, it stays empty, and modeled HydroATLAS values are labeled as such.',
+          summary: "Satellite explorers of Argentine river basins on a shared codebase: Río Negro (8,016 river reaches, 25 sub-basins) and the Córdoba basins. Custom TypeScript/DuckDB/GDAL data pipeline with automated checks at every step; natural-language search where an LLM picks rivers and metrics but never writes numbers.",
+          desc: "Satellite explorers of Argentine river basins on a shared codebase: Río Negro (8,016 river reaches, 25 sub-basins) and the Córdoba basins. Custom TypeScript/DuckDB/GDAL data pipeline with automated checks at every step; natural-language search where an LLM picks rivers and metrics but never writes numbers.",
         },
         kkapp: {
           badge: "Web App",
@@ -342,40 +327,41 @@ export const translations: Record<Lang, Translation> = {
       title: { pre: "Where I've ", em: "worked." },
       jobs: [
         {
-          period: "May 2025 — Present · Córdoba, AR",
+          period: "May 2025 — Present",
           role: "Freelance Full-Stack Developer",
-          company: "",
-          desc: "Designing, building and deploying production web apps end-to-end with Next.js, React, TypeScript, NestJS, Supabase and PostgreSQL on Vercel — KKApp, Colchoncito.",
+          company: "Independent",
+          desc: "Built and launched KKApp (kkapp.es) as sole developer: Next.js frontend, NestJS/PostgreSQL API with geospatial search, role-based access and moderation of user-submitted locations; owned data modeling, authentication, UX and production deployment on Vercel.",
         },
         {
-          period: "May 2023 — Mar 2024 · Remote",
+          period: "May 2023 — Feb 2024 · Remote",
           role: "Software Developer for AI Training",
           company: "Scale AI",
-          desc: "Reviewed, corrected and improved Python, SQL, Java, Go and HTML for LLM training pipelines, evaluating speed, readiness and completeness.",
+          desc: "Evaluated and corrected AI-generated code in Python, SQL, Java, Go and HTML for LLM training pipelines, assessing correctness, performance and completeness.",
         },
         {
-          period: "Aug 2022 — Feb 2023 · Remote",
-          role: "Assistant Professor, Databases",
+          period: "Aug 2022 — Feb 2023",
+          role: "Teaching Assistant, Databases",
           company: "National University of Comahue",
-          desc: "Helped students with relational algebra, SQL and DBMS fundamentals; graded exams with individual feedback.",
+          desc: "Supported students in relational algebra, SQL and DBMS fundamentals; graded exams and gave individual feedback.",
         },
         {
-          period: "Jun 2022 — Aug 2022 · Neuquén, AR",
+          period: "Jun 2022 — Aug 2022 · Remote",
           role: "Trainee Software Engineer",
           company: "Ensolvers",
-          desc: "Backend development in Java and front-end features in React; automated QA for the IDB site with Playwright and Cucumber JS.",
+          desc: "Contributed to backend development in Java and built frontend features with React.",
         },
         {
-          period: "Nov 2021 — Jan 2022 · Neuquén, AR",
+          period: "Nov 2021 — Jan 2022",
           role: "Software Developer, NEST Program",
           company: "Patagonian Tech",
-          desc: "Designed and developed reusable backend modules in NestJS, PostgreSQL, AWS and Docker to standardise company-wide projects.",
+          desc: "Automated QA testing for the BID website with Playwright and Cucumber JS; designed and developed reusable backend modules in NestJS, PostgreSQL, AWS and Docker to standardize company-wide projects.",
         },
       ],
       educationLabel: "Education",
       education: [
-        "B.Sc. Computer Science — National University of Comahue",
-        "Environmental Engineering (in progress) — National University of Córdoba",
+        "Analista Programador Universitario (University Programming Analyst) — National University of Comahue, 2019–2022",
+        "Environmental Engineering (in progress) — National University of Córdoba, 2023–present",
+        "Scholarship semester, Software — ITBA, 2022",
       ],
       certificationsLabel: "Certifications",
       certifications: [

@@ -13,15 +13,18 @@ type LanguageContextValue = {
   toggle: () => void;
 };
 
+// English is the default: it matches the server-rendered <html lang> and og:locale.
+const DEFAULT_LANG: Lang = "en";
+
 const LanguageContext = createContext<LanguageContextValue>({
-  lang: "es",
+  lang: DEFAULT_LANG,
   toggle: () => {},
 });
 
 const STORAGE_KEY = "lang";
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>("es");
+  const [lang, setLang] = useState<Lang>(DEFAULT_LANG);
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -29,12 +32,17 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, lang);
     document.documentElement.lang = lang;
   }, [lang]);
 
+  // Persist only an explicit choice, so first-time visitors keep the default.
   const toggle = useCallback(
-    () => setLang((l) => (l === "es" ? "en" : "es")),
+    () =>
+      setLang((l) => {
+        const next = l === "es" ? "en" : "es";
+        localStorage.setItem(STORAGE_KEY, next);
+        return next;
+      }),
     []
   );
 

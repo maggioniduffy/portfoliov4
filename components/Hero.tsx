@@ -200,11 +200,12 @@ export default function Hero() {
           <span>{t.role} — Córdoba, AR</span>
         </div>
         <h1 className="hero-name">
-          <span className="sr-only">Faustino Maggioni Duffy — </span>
-          <span className="hero-line line-1" data-h1 aria-hidden>
+          {/* The visible lines are the heading text; the space keeps "Faustino"
+              and "Maggioni" apart in extracted text (lines are display:block). */}
+          <span className="hero-line line-1" data-h1>
             Faustino
-          </span>
-          <span className="hero-line line-2" data-h2 aria-hidden>
+          </span>{" "}
+          <span className="hero-line line-2" data-h2>
             Maggioni <span className="acc">Duffy</span>
           </span>
         </h1>
