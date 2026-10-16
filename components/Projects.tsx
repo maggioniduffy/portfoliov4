@@ -19,6 +19,8 @@ type Project = {
   tech: string[];
   live: string;
   github: string;
+  /** Internal case-study page, when there is one. */
+  caseStudy?: string;
   /** Projects without a demo video show a still: light/dark follow the theme, `feature` fills the modal. */
   media: { video: string } | { light: string; dark: string; feature: string };
   tone: "paper" | "acc" | "dusk";
@@ -29,6 +31,17 @@ const getProjects = (lang: Lang): Project[] => {
   return [
     {
       num: "01",
+      name: "Basin Explorer",
+      ...t.rionegro,
+      tech: ["Next.js", "TypeScript", "MapLibre GL", "PMTiles", "DuckDB", "GDAL", "MongoDB"],
+      live: "https://basinexplorer.vercel.app/",
+      github: "https://github.com/maggioniduffy/rionegro-basin-explorer",
+      caseStudy: "/projects/basin-explorer",
+      media: { video: "/videos/rionegro.mp4" },
+      tone: "dusk",
+    },
+    {
+      num: "02",
       name: "Things",
       ...t.things,
       tech: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS", "Playwright"],
@@ -40,16 +53,6 @@ const getProjects = (lang: Lang): Project[] => {
         feature: "/images/things.png",
       },
       tone: "paper",
-    },
-    {
-      num: "02",
-      name: "Basin Explorer",
-      ...t.rionegro,
-      tech: ["Next.js", "TypeScript", "MapLibre GL", "PMTiles", "DuckDB", "GDAL"],
-      live: "https://basinexplorer.vercel.app/",
-      github: "https://github.com/maggioniduffy/rionegro-basin-explorer",
-      media: { video: "/videos/rionegro.mp4" },
-      tone: "dusk",
     },
     {
       num: "03",
@@ -121,6 +124,7 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
             <a href={p.github} target="_blank" rel="noopener noreferrer">
               GitHub ↗
             </a>
+            {p.caseStudy && <a href={p.caseStudy}>{t.caseStudy}</a>}
           </div>
         </div>
       </div>
@@ -128,10 +132,64 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
   );
 }
 
+// Pointer-driven tilt, shine and moving edge. Styles are written straight to
+// the element (once per frame) so pointer moves don't re-render React.
+// Off for reduced motion and on touch screens, which keep the resting state.
+function useCardFx(ref: React.RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    if (
+      matchMedia("(prefers-reduced-motion: reduce)").matches ||
+      !matchMedia("(hover: hover)").matches
+    )
+      return;
+    let raf = 0;
+    const move = (e: PointerEvent) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const b = el.getBoundingClientRect();
+        const x = (e.clientX - b.left) / b.width - 0.5;
+        const y = (e.clientY - b.top) / b.height - 0.5;
+        el.style.transform = `perspective(1000px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateZ(10px)`;
+        el.style.setProperty("--mx", `${(x + 0.5) * 100}%`);
+        el.style.setProperty("--my", `${(y + 0.5) * 100}%`);
+        el.style.setProperty("--sx", `${(1 - (x + 0.5)) * 100}%`);
+        el.style.setProperty("--so", "1");
+        // The edge slides to the side opposite the tilt.
+        const ex = -x * 10;
+        const ey = -y * 10 + 6;
+        const edge = [1, 2, 3, 4, 5]
+          .map(
+            (i) =>
+              `${((ex * i) / 5).toFixed(1)}px ${((ey * i) / 5).toFixed(1)}px 0 rgba(0,0,0,${0.3 + i * 0.03})`
+          )
+          .join(",");
+        el.style.boxShadow = `0 1px 0 rgba(255,255,255,.4) inset,0 -3px 0 rgba(0,0,0,.22) inset,${edge},${ex * 3}px ${ey * 4 + 20}px 60px -10px rgba(0,0,0,.75)`;
+      });
+    };
+    const leave = () => {
+      cancelAnimationFrame(raf);
+      el.style.transform = "";
+      el.style.boxShadow = "";
+      el.style.setProperty("--so", ".55");
+      el.style.setProperty("--sx", "100%");
+    };
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerleave", leave);
+    return () => {
+      cancelAnimationFrame(raf);
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerleave", leave);
+    };
+  }, [ref]);
+}
+
 function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
   const { lang } = useLanguage();
   const t = translations[lang].projects;
   const videoRef = useRef<HTMLVideoElement>(null);
+  const cardRef = useRef<HTMLElement>(null);
   const cta = "video" in p.media ? t.watchDemo : t.viewProject;
 
   // Play the preview loop only while the card is on screen.
@@ -147,19 +205,10 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
     return () => io.disconnect();
   }, []);
 
-  const tilt = (e: React.MouseEvent<HTMLElement>) => {
-    const el = e.currentTarget;
-    const b = el.getBoundingClientRect();
-    const x = (e.clientX - b.left) / b.width - 0.5;
-    const y = (e.clientY - b.top) / b.height - 0.5;
-    el.style.transform = `perspective(1000px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateZ(10px)`;
-  };
-  const untilt = (e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.style.transform = "none";
-  };
+  useCardFx(cardRef);
 
   return (
-    <article className={`card card-${p.tone}`} onMouseMove={tilt} onMouseLeave={untilt}>
+    <article ref={cardRef} className={`card card-${p.tone}`}>
       <button className="card-media" onClick={onOpen} aria-label={`${cta}: ${p.name}`}>
         {"video" in p.media ? (
           <video ref={videoRef} src={p.media.video} muted loop playsInline preload="metadata" />
@@ -190,9 +239,11 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
             <a href={p.github} target="_blank" rel="noopener noreferrer">
               GitHub ↗
             </a>
+            {p.caseStudy && <a href={p.caseStudy}>{t.caseStudy}</a>}
           </div>
         </div>
       </div>
+      <div className="card-shine" aria-hidden />
     </article>
   );
 }

@@ -27,19 +27,24 @@ const BASE_URL = "https://maggioniduffy.vercel.app";
 
 // Metadata is rendered server-side, so it can't follow the client-side
 // language toggle — default to English since the site targets international clients.
-const OG_TITLE = "Faustino Maggioni Duffy — Software Developer";
+const OG_TITLE = "Faustino Maggioni Duffy — Full-Stack Software Engineer";
 const OG_DESCRIPTION =
-  "Full-stack developer from Córdoba, Argentina — building clean, scalable, beautifully designed digital products.";
+  "Full-stack engineer building production web products end to end with TypeScript, React, Next.js, NestJS and PostgreSQL. Geospatial apps and data pipelines. Remote from Argentina.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: OG_TITLE,
   description: OG_DESCRIPTION,
+  // Both languages live on the same URL (client-side toggle), so there are no
+  // per-language hreflang alternates — only the canonical.
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: OG_TITLE,
     description: OG_DESCRIPTION,
     url: BASE_URL,
-    siteName: "Faustino Maggioni Duffy - Software Developer",
+    siteName: "Faustino Maggioni Duffy",
     images: [
       {
         url: "/og-image.png",
@@ -67,7 +72,7 @@ export default function RootLayout({
 }) {
   return (
     <html
-      lang="es"
+      lang="en"
       suppressHydrationWarning
       className={`${grotesk.variable} ${mono.variable} ${instrumentSerif.variable}`}
     >

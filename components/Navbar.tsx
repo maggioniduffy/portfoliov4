@@ -23,15 +23,15 @@ export default function Navbar() {
 
   return (
     <nav className="nav">
-      <a href="#top" className="nav-logo">
+      <a href="/#top" className="nav-logo">
         F/MD
       </a>
       <div className="nav-links">
-        <a href="#about">{t.about}</a>
-        <a href="#projects">{t.projects}</a>
-        <a href="#testimonials">{t.testimonials}</a>
-        <a href="#experience">{t.experience}</a>
-        <a href="#contact">{t.contact}</a>
+        <a href="/#about">{t.about}</a>
+        <a href="/#projects">{t.projects}</a>
+        <a href="/#testimonials">{t.testimonials}</a>
+        <a href="/#experience">{t.experience}</a>
+        <a href="/#contact">{t.contact}</a>
       </div>
       <div className="nav-actions">
         <button className="nav-btn" onClick={toggle} aria-label={t.langToggleAria}>

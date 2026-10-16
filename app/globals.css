@@ -534,15 +534,52 @@ em {
   transform: scaleX(0);
 }
 
+/* Card volume: a stacked "edge" of solid shadows fakes 10px of thickness;
+   CardFx shifts it away from the tilt while the pointer is over the card. */
 .card {
   --card-fg: #15130e;
   --card-fg-rgb: 21, 19, 14;
+  position: relative;
   width: min(78vw, 680px);
-  height: min(70vh, 600px);
+  height: min(64vh, 560px);
   display: flex;
   flex-direction: column;
-  transition: transform 0.25s ease-out;
+  border-radius: 22px;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.4) inset,
+    0 -3px 0 rgba(0, 0, 0, 0.22) inset,
+    0 2px 0 rgba(0, 0, 0, 0.35),
+    0 4px 0 rgba(0, 0, 0, 0.35),
+    0 6px 0 rgba(0, 0, 0, 0.35),
+    0 8px 0 rgba(0, 0, 0, 0.4),
+    0 10px 0 rgba(0, 0, 0, 0.45),
+    0 30px 50px -10px rgba(0, 0, 0, 0.7),
+    0 60px 100px -30px rgba(0, 0, 0, 0.6);
+  transform-style: preserve-3d;
+  transition:
+    transform 0.25s ease-out,
+    box-shadow 0.25s ease-out;
   color: var(--card-fg);
+}
+.card-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 2;
+  background:
+    radial-gradient(520px circle at var(--mx, 30%) var(--my, 0%), rgba(255, 255, 255, 0.28), transparent 45%),
+    linear-gradient(115deg, transparent 35%, rgba(255, 255, 255, 0.14) 48%, transparent 60%);
+  background-size:
+    100% 100%,
+    250% 100%;
+  background-position:
+    0 0,
+    var(--sx, 100%) 0;
+  opacity: var(--so, 0.55);
+  transition:
+    opacity 0.3s,
+    background-position 0.6s ease-out;
 }
 .card-paper {
   background: #ece7dc;
@@ -565,7 +602,12 @@ em {
   margin: 12px 12px 0;
   padding: 0;
   border: 0;
+  border-radius: 14px;
   background: #0e0d0a;
+  box-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.12),
+    0 14px 28px -8px rgba(0, 0, 0, 0.5),
+    0 4px 8px rgba(0, 0, 0, 0.25);
   cursor: pointer;
   overflow: hidden;
 }
@@ -605,7 +647,7 @@ em {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 20px;
-  padding: 20px 24px 22px;
+  padding: 22px 24px 24px;
   align-items: start;
 }
 .card-num {
@@ -650,7 +692,8 @@ em {
 }
 .card-links {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 12px 20px;
   margin-top: 4px;
   font: 500 12px/1 var(--mono);
   letter-spacing: 0.06em;
@@ -659,6 +702,7 @@ em {
 .card-links a {
   border-bottom: 1px solid currentColor;
   padding-bottom: 3px;
+  white-space: nowrap;
 }
 .card-paper .card-links a:hover {
   color: var(--acc-ink);
@@ -961,6 +1005,67 @@ em {
   flex-wrap: wrap;
 }
 
+/* ─── Case study ──────────────────────────────────────────────────── */
+/* Built from the contact (dark header) and experience (sticky-head grid,
+   timeline) sections; only spacing and body copy are new. */
+.case-hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--night);
+  color: var(--cream);
+  padding: 120px var(--gutter) 64px;
+}
+.case-hero em,
+.case-hero .label.acc {
+  color: var(--acc-ink-night);
+}
+.case-hero a:hover {
+  color: var(--acc-ink-night);
+}
+.case-lede {
+  margin: 0;
+  max-width: 640px;
+  font: 400 19px/1.5 var(--sans);
+  color: rgba(var(--cream-rgb), 0.8);
+  text-wrap: pretty;
+}
+.case-video {
+  width: 100%;
+  max-height: 75vh;
+  background: #000;
+  display: block;
+}
+.experience.case-section {
+  padding: 112px var(--gutter) 0;
+}
+.case-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.case-body > p {
+  margin: 0;
+  max-width: 620px;
+  font: 400 19px/1.55 var(--sans);
+  color: rgba(var(--ink-rgb), 0.82);
+  text-wrap: pretty;
+}
+.case-body .timeline {
+  gap: 40px;
+}
+.case-body .job h3 {
+  font-size: 30px;
+}
+.case-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin: 112px var(--gutter) 0;
+  padding: 24px 0 32px;
+  border-top: 1px solid rgba(var(--ink-rgb), 0.2);
+}
+
 /* ─── Responsive ──────────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .nav-links {
@@ -1044,6 +1149,10 @@ em {
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+  .card,
+  .card-shine {
+    transition: none;
   }
   .hero-line,
   .intro-1,
