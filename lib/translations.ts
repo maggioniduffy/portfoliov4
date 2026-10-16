@@ -57,6 +57,24 @@ type Translation = {
       things: ProjectCopy;
     };
   };
+  caseStudy: {
+    label: string;
+    back: string;
+    lede: string;
+    links: { hub: string; rionegro: string; cordoba: string };
+    problem: { label: string; title: SectionTitle; body: string[] };
+    architecture: {
+      label: string;
+      title: SectionTitle;
+      intro: string;
+      flow: { name: string; desc: string }[];
+      outro: string;
+    };
+    pipeline: { label: string; title: SectionTitle; body: string[] };
+    guardrail: { label: string; title: SectionTitle; body: string[] };
+    regions: { label: string; title: SectionTitle; body: string[] };
+    stack: { label: string; title: SectionTitle; core: string; also: string };
+  };
   marquee: string[];
   testimonials: {
     label: string;
@@ -100,7 +118,7 @@ export const translations: Record<Lang, Translation> = {
     hero: {
       tag: "Disponible para nuevas oportunidades",
       role: "Desarrollador full-stack",
-      desc: "Desarrollador full-stack de Córdoba, Argentina — construyendo productos digitales limpios, escalables y bellamente diseñados.",
+      desc: "Desarrollador full-stack que construye productos web en producción de punta a punta con TypeScript, React, Next.js, NestJS y PostgreSQL. Apps geoespaciales y pipelines de datos. Remoto desde Argentina.",
       scroll: "Desplazá",
     },
     about: {
@@ -108,7 +126,7 @@ export const translations: Record<Lang, Translation> = {
       paragraphs: [
         [
           {
-            text: "Ingeniero full-stack con más de 3 años de experiencia construyendo y lanzando aplicaciones web en producción de punta a punta con TypeScript, React, Next.js, NestJS y PostgreSQL.",
+            text: "Desarrollador full-stack con más de 3 años de experiencia construyendo y lanzando aplicaciones web en producción de punta a punta con TypeScript, React, Next.js, NestJS y PostgreSQL.",
           },
         ],
         [
@@ -165,6 +183,74 @@ export const translations: Record<Lang, Translation> = {
             "Guardá cualquier cosa y encontrala de nuevo: links, archivos y notas, ordenados por formato, en colecciones y con búsqueda rápida.",
           desc: "Things es una app para guardar links, archivos y notas para más tarde. Todo se ordena por formato, se organiza en colecciones y se encuentra de nuevo con búsqueda rápida. Construida con Next.js 16, Supabase y Tailwind CSS v4, con tests de base de datos, unitarios y end-to-end con Playwright.",
         },
+      },
+    },
+    caseStudy: {
+      label: "Caso de estudio · Hidrología",
+      back: "← Todos los proyectos",
+      lede: "Exploradores satelitales de cuencas fluviales argentinas sobre un código compartido: Río Negro (8.016 tramos de río, 25 subcuencas) y las cuencas de Córdoba. Pipeline de datos propio en TypeScript/DuckDB/GDAL con controles automáticos en cada paso; búsqueda en lenguaje natural donde un LLM elige ríos y métricas pero nunca escribe números.",
+      links: { hub: "Sitio en vivo", rionegro: "Río Negro", cordoba: "Córdoba" },
+      problem: {
+        label: "El problema",
+        title: { pre: "Valores con ", em: "fuente." },
+        body: [
+          "Explorar cuencas fluviales sobre imágenes satelitales, con cada valor trazable hasta su fuente.",
+          "Tocás un río, un tramo o una subcuenca y se abre un panel con sus métricas. El explorador del Río Negro cubre 8.016 tramos de río y 25 subcuencas.",
+        ],
+      },
+      architecture: {
+        label: "Arquitectura",
+        title: { pre: "Sin backend ", em: "aparte." },
+        intro: "La geometría y los metadatos viven separados y se encuentran en un id de feature. Así viaja un clic en el mapa:",
+        flow: [
+          {
+            name: "PMTiles estáticos",
+            desc: "La geometría de ríos y cuencas se sirve como tiles vectoriales PMTiles estáticos, que el navegador lee con requests HTTP Range.",
+          },
+          {
+            name: "Id de feature",
+            desc: "Cada feature de los tiles lleva un id que coincide con un documento en MongoDB, así que un clic sabe exactamente qué pedir.",
+          },
+          {
+            name: "Route handlers en CDN",
+            desc: "El clic llega a route handlers de Next.js cuyas respuestas quedan cacheadas en un CDN.",
+          },
+          {
+            name: "MongoDB de solo lectura",
+            desc: "Los metadatos viven en MongoDB y solo se leen desde Server Components y Route Handlers, con un usuario de base de datos de solo lectura.",
+          },
+        ],
+        outro: "No hay un backend separado: la app de Next.js es todo el stack.",
+      },
+      pipeline: {
+        label: "Pipeline de datos",
+        title: { pre: "Controlado en cada ", em: "paso." },
+        body: [
+          "Los datos se construyen con un pipeline de pasos en TypeScript que usan DuckDB y tippecanoe.",
+          "Cada paso escribe un report.json y corre controles automáticos: por ejemplo, las áreas de las subcuencas deben sumar exactamente el área de la cuenca.",
+        ],
+      },
+      guardrail: {
+        label: "Búsqueda con LLM",
+        title: { pre: "El modelo nunca escribe ", em: "números." },
+        body: [
+          "Una caja de preguntas en lenguaje natural responde cosas como “¿Cuál es más largo, el Caleufú o el Agrio?”.",
+          "El LLM solo elige los ríos y la medida. Los valores de la respuesta se leen de los datos y se muestran con su fuente y, cuando corresponde, con las advertencias sobre datos modelados.",
+        ],
+      },
+      regions: {
+        label: "Multi-región",
+        title: { pre: "Un código, varias ", em: "cuencas." },
+        body: [
+          "Cada región es su propio explorador sobre un código compartido: el Río Negro en /rionegro y las cuencas de Córdoba en /cordoba.",
+          "Las regiones se declaran en un registro con su propia configuración, textos y contenido, y comparten todos los componentes.",
+        ],
+      },
+      stack: {
+        label: "Stack",
+        title: { pre: "Con qué está ", em: "hecho." },
+        core: "Stack principal",
+        also: "También",
       },
     },
     marquee: ["Esquema", "Auth", "API", "Interfaz", "Deploy"],
@@ -247,8 +333,8 @@ export const translations: Record<Lang, Translation> = {
     },
     hero: {
       tag: "Available for new opportunities",
-      role: "Full-stack developer",
-      desc: "Full-stack developer from Córdoba, Argentina — building clean, scalable, beautifully designed digital products.",
+      role: "Full-stack software engineer",
+      desc: "Full-stack engineer building production web products end to end with TypeScript, React, Next.js, NestJS and PostgreSQL. Geospatial apps and data pipelines. Remote from Argentina.",
       scroll: "Scroll",
     },
     about: {
@@ -313,6 +399,74 @@ export const translations: Record<Lang, Translation> = {
         },
       },
     },
+    caseStudy: {
+      label: "Case study · Hydrology",
+      back: "← All projects",
+      lede: "Satellite explorers of Argentine river basins on a shared codebase: Río Negro (8,016 river reaches, 25 sub-basins) and the Córdoba basins. Custom TypeScript/DuckDB/GDAL data pipeline with automated checks at every step; natural-language search where an LLM picks rivers and metrics but never writes numbers.",
+      links: { hub: "Live site", rionegro: "Río Negro", cordoba: "Córdoba" },
+      problem: {
+        label: "The problem",
+        title: { pre: "Values with a ", em: "source." },
+        body: [
+          "Explore river basins on satellite imagery, with every value traceable to its source.",
+          "Tap a river, a reach or a sub-basin to open a panel with its metrics. The Río Negro explorer covers 8,016 river reaches and 25 sub-basins.",
+        ],
+      },
+      architecture: {
+        label: "Architecture",
+        title: { pre: "No separate ", em: "backend." },
+        intro: "Geometry and metadata live apart and meet on a feature id. This is the path of a click on the map:",
+        flow: [
+          {
+            name: "Static PMTiles",
+            desc: "River and basin geometry is served as static PMTiles vector tiles, which the browser reads with HTTP range requests.",
+          },
+          {
+            name: "Feature id",
+            desc: "Every feature in the tiles carries an id that matches a document in MongoDB, so a click knows exactly what to fetch.",
+          },
+          {
+            name: "CDN-cached route handlers",
+            desc: "The click reaches Next.js route handlers whose responses are cached on a CDN.",
+          },
+          {
+            name: "Read-only MongoDB",
+            desc: "Metadata lives in MongoDB and is read only from Server Components and Route Handlers, through a read-only database user.",
+          },
+        ],
+        outro: "There is no separate backend: the Next.js app is the whole stack.",
+      },
+      pipeline: {
+        label: "Data pipeline",
+        title: { pre: "Checked at every ", em: "step." },
+        body: [
+          "The data is built by a pipeline of TypeScript steps that run DuckDB and tippecanoe.",
+          "Each step writes a report.json and runs automated checks: for example, sub-basin areas must sum exactly to the basin area.",
+        ],
+      },
+      guardrail: {
+        label: "LLM search",
+        title: { pre: "The model never writes ", em: "numbers." },
+        body: [
+          "A natural-language ask box answers questions like “Which is longer, Caleufú or Agrio?”.",
+          "The LLM only picks the rivers and the measure. The values in the answer are read from the data and shown with their source and, where they apply, the caveats on modeled data.",
+        ],
+      },
+      regions: {
+        label: "Multi-region",
+        title: { pre: "One codebase, many ", em: "basins." },
+        body: [
+          "Each region is its own explorer on a shared codebase: Río Negro at /rionegro and the Córdoba basins at /cordoba.",
+          "Regions are declared in a registry with their own config, messages and content, and share every component.",
+        ],
+      },
+      stack: {
+        label: "Stack",
+        title: { pre: "What it's ", em: "built with." },
+        core: "Core stack",
+        also: "Also",
+      },
+    },
     marquee: ["Schema", "Auth", "API", "Interface", "Deploy"],
     testimonials: {
       label: "What they say",
@@ -354,7 +508,7 @@ export const translations: Record<Lang, Translation> = {
           period: "Nov 2021 — Jan 2022",
           role: "Software Developer, NEST Program",
           company: "Patagonian Tech",
-          desc: "Automated QA testing for the BID website with Playwright and Cucumber JS; designed and developed reusable backend modules in NestJS, PostgreSQL, AWS and Docker to standardize company-wide projects.",
+          desc: "Automated QA testing for the IDB website with Playwright and Cucumber JS; designed and developed reusable backend modules in NestJS, PostgreSQL, AWS and Docker to standardize company-wide projects.",
         },
       ],
       educationLabel: "Education",

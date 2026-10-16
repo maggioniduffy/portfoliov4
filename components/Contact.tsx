@@ -53,7 +53,6 @@ export default function Contact() {
           <a href="https://github.com/maggioniduffy" target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
-          <a href="tel:+5492995509968">+549 299 550 9968</a>
         </div>
         <span>
           {f.copyright} · {f.madeWith}
