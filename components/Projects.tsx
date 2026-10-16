@@ -19,6 +19,8 @@ type Project = {
   tech: string[];
   live: string;
   github: string;
+  /** Internal case-study page, when there is one. */
+  caseStudy?: string;
   /** Projects without a demo video show a still: light/dark follow the theme, `feature` fills the modal. */
   media: { video: string } | { light: string; dark: string; feature: string };
   tone: "paper" | "acc" | "dusk";
@@ -34,6 +36,7 @@ const getProjects = (lang: Lang): Project[] => {
       tech: ["Next.js", "TypeScript", "MapLibre GL", "PMTiles", "DuckDB", "GDAL", "MongoDB"],
       live: "https://basinexplorer.vercel.app/",
       github: "https://github.com/maggioniduffy/rionegro-basin-explorer",
+      caseStudy: "/projects/basin-explorer",
       media: { video: "/videos/rionegro.mp4" },
       tone: "dusk",
     },
@@ -121,6 +124,7 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
             <a href={p.github} target="_blank" rel="noopener noreferrer">
               GitHub ↗
             </a>
+            {p.caseStudy && <a href={p.caseStudy}>{t.caseStudy}</a>}
           </div>
         </div>
       </div>
@@ -235,6 +239,7 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
             <a href={p.github} target="_blank" rel="noopener noreferrer">
               GitHub ↗
             </a>
+            {p.caseStudy && <a href={p.caseStudy}>{t.caseStudy}</a>}
           </div>
         </div>
       </div>

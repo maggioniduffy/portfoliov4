@@ -692,7 +692,8 @@ em {
 }
 .card-links {
   display: flex;
-  gap: 20px;
+  flex-wrap: wrap;
+  gap: 12px 20px;
   margin-top: 4px;
   font: 500 12px/1 var(--mono);
   letter-spacing: 0.06em;
@@ -701,6 +702,7 @@ em {
 .card-links a {
   border-bottom: 1px solid currentColor;
   padding-bottom: 3px;
+  white-space: nowrap;
 }
 .card-paper .card-links a:hover {
   color: var(--acc-ink);
@@ -1019,13 +1021,6 @@ em {
 }
 .case-hero a:hover {
   color: var(--acc-ink-night);
-}
-.case-hero .card-links {
-  flex-wrap: wrap;
-  row-gap: 14px;
-}
-.case-hero .card-links a {
-  white-space: nowrap;
 }
 .case-lede {
   margin: 0;

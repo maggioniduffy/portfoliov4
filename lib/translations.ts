@@ -48,6 +48,7 @@ type Translation = {
     intro: string;
     liveSite: string;
     watchDemo: string;
+    caseStudy: string;
     viewProject: string;
     closeAria: string;
     items: {
@@ -155,6 +156,7 @@ export const translations: Record<Lang, Translation> = {
       intro: "Apps en producción, mapas y herramientas reales. Seguí bajando →",
       liveSite: "Sitio en vivo",
       watchDemo: "Ver demo",
+      caseStudy: "Caso de estudio →",
       viewProject: "Ver proyecto",
       closeAria: "Cerrar",
       items: {
@@ -369,6 +371,7 @@ export const translations: Record<Lang, Translation> = {
       intro: "Production apps, maps and real tools. Keep scrolling →",
       liveSite: "Live site",
       watchDemo: "Watch demo",
+      caseStudy: "Case study →",
       viewProject: "View project",
       closeAria: "Close",
       items: {
