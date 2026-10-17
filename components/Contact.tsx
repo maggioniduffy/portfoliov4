@@ -53,6 +53,9 @@ export default function Contact() {
           <a href="https://github.com/maggioniduffy" target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
+          <a href="https://cafecito.app/maggioniduffy" target="_blank" rel="noopener noreferrer">
+            {f.coffee}
+          </a>
         </div>
         <span>
           {f.copyright} · {f.madeWith}

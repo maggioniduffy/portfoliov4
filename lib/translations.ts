@@ -101,6 +101,7 @@ type Translation = {
   footer: {
     copyright: string;
     madeWith: string;
+    coffee: string;
   };
 };
 
@@ -320,6 +321,7 @@ export const translations: Record<Lang, Translation> = {
     footer: {
       copyright: "© 2026 Faustino Maggioni Duffy",
       madeWith: "Hecho con cuidado · Córdoba, Argentina",
+      coffee: "Invitame un cafecito ☕",
     },
   },
   en: {
@@ -535,6 +537,7 @@ export const translations: Record<Lang, Translation> = {
     footer: {
       copyright: "© 2026 Faustino Maggioni Duffy",
       madeWith: "Made with care · Córdoba, Argentina",
+      coffee: "Buy me a coffee ☕",
     },
   },
 };
