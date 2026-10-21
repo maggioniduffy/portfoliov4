@@ -1,5 +1,9 @@
 import type { Metadata } from "next";
-import { Familjen_Grotesk, JetBrains_Mono, Instrument_Serif } from "next/font/google";
+import {
+  Familjen_Grotesk,
+  JetBrains_Mono,
+  Instrument_Serif,
+} from "next/font/google";
 import "./globals.css";
 import { themeInitScript } from "@/components/useTheme";
 import { Analytics } from "@vercel/analytics/next";
@@ -23,7 +27,7 @@ const instrumentSerif = Instrument_Serif({
   variable: "--font-serif",
 });
 
-const BASE_URL = "https://maggioniduffy.vercel.app";
+const BASE_URL = "https://maggioniduffy.com";
 
 // Metadata is rendered server-side, so it can't follow the client-side
 // language toggle — default to English since the site targets international clients.
