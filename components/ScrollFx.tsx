@@ -74,10 +74,18 @@ export default function ScrollFx() {
       }
 
       if (E.pin && E.track) {
-        const rc = E.pin.getBoundingClientRect();
-        const p = clamp(-rc.top / (rc.height - vh));
-        const max = Math.max(0, E.track.scrollWidth - vw);
-        E.track.style.transform = `translateX(${-p * max}px)`;
+        let p: number;
+        if (vw <= 720) {
+          // Mobile: the track scrolls natively sideways; just mirror its position.
+          const max = E.track.scrollWidth - E.track.clientWidth;
+          p = max > 0 ? clamp(E.track.scrollLeft / max) : 0;
+          E.track.style.transform = "";
+        } else {
+          const rc = E.pin.getBoundingClientRect();
+          p = clamp(-rc.top / (rc.height - vh));
+          const max = Math.max(0, E.track.scrollWidth - vw);
+          E.track.style.transform = `translateX(${-p * max}px)`;
+        }
         if (E.pbar) E.pbar.style.transform = `scaleX(${p})`;
         if (E.count && cards)
           E.count.textContent =
