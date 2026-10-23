@@ -1097,8 +1097,45 @@ em {
   .skills-stage {
     height: 380px;
   }
+  /* Mobile: no pinned rail — projects are a native horizontal swipe carousel */
+  .work {
+    height: auto;
+    padding: 64px 0 40px;
+  }
+  .work-sticky {
+    position: static;
+    height: auto;
+    overflow: visible;
+    gap: 24px;
+  }
   .work-top {
-    top: 64px;
+    position: static;
+    padding: 0 var(--gutter);
+  }
+  .work-track {
+    width: auto;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-padding: 0 var(--gutter);
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    transform: none !important;
+  }
+  .work-track::-webkit-scrollbar {
+    display: none;
+  }
+  .work-intro,
+  .card {
+    flex: none;
+    scroll-snap-align: start;
+  }
+  .work-bar {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    margin: 0 var(--gutter);
   }
   .work-intro {
     width: 78vw;
