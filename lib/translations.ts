@@ -181,10 +181,10 @@ export const translations: Record<Lang, Translation> = {
         },
         things: {
           badge: "Productividad",
-          tag: "Nuevo",
+          tag: "En vivo",
           summary:
-            "Guardá cualquier cosa y encontrala de nuevo: links, archivos y notas, ordenados por formato, en colecciones y con búsqueda rápida.",
-          desc: "Things es una app para guardar links, archivos y notas para más tarde. Todo se ordena por formato, se organiza en colecciones y se encuentra de nuevo con búsqueda rápida. Construida con Next.js 16, Supabase y Tailwind CSS v4, con tests de base de datos, unitarios y end-to-end con Playwright.",
+            "Guardá cualquier cosa y encontrala de nuevo: links, archivos y notas ordenados por formato, en colecciones, en grilla, lista o un canvas libre. Se instala como app y se usa sin cuenta.",
+          desc: "Cosateca (Thingteca en inglés) es una app para guardar links, archivos y notas para más tarde. Pegás, soltás o escribís cualquier cosa y se clasifica sola por formato, con vista previa de links, colecciones, etiquetas, vistas inteligentes y búsqueda rápida desde una paleta de comandos. Se organiza en grilla, lista o un canvas infinito, con arrastrar y soltar, selección múltiple y deshacer en todo. Se puede probar sin cuenta (usuarios invitados con las mismas reglas de seguridad en la base) y se instala como PWA. Es la primera app de Teca, un conjunto de apps con una sola cuenta. Next.js 16, Supabase y Tailwind CSS v4, con más de 1.700 tests unitarios, 170 de base de datos, 145 end-to-end con Playwright y un chequeo de accesibilidad en cada ruta.",
         },
       },
     },
@@ -397,10 +397,10 @@ export const translations: Record<Lang, Translation> = {
         },
         things: {
           badge: "Productivity",
-          tag: "New",
+          tag: "Live",
           summary:
-            "Save anything, find it again: links, files and notes, sorted by format, organised into collections and found with fast search.",
-          desc: "Things is a save-for-later app for links, files and notes. Everything is sorted by format, organised into collections and found again with fast search. Built with Next.js 16, Supabase and Tailwind CSS v4, with database, unit and Playwright end-to-end tests.",
+            "Save anything, find it again: links, files and notes sorted by format, in collections, on a grid, a list or a free canvas. Installable, and usable without an account.",
+          desc: "Thingteca (Cosateca in Spanish) is a save-for-later app for links, files and notes. Paste, drop or type anything and it is sorted by format on its own, with link previews, collections, tags, smart views and fast search from a command palette. Organise it on a grid, a list or an infinite canvas, with drag and drop, multi-select and undo everywhere. Guests can try it without an account (anonymous users under the same row-level security) and it installs as a PWA. It is the first app of Teca, a set of apps that share one account. Next.js 16, Supabase and Tailwind CSS v4, with 1,700+ unit, 170 database and 145 Playwright end-to-end tests, plus an accessibility check on every route.",
         },
       },
     },

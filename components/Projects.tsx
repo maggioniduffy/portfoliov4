@@ -18,7 +18,8 @@ type Project = {
   desc: string;
   tech: string[];
   live: string;
-  github: string;
+  /** Public repo, when the code is open. */
+  github?: string;
   /** Internal case-study page, when there is one. */
   caseStudy?: string;
   /** Projects without a demo video show a still: light/dark follow the theme, `feature` fills the modal. */
@@ -42,15 +43,15 @@ const getProjects = (lang: Lang): Project[] => {
     },
     {
       num: "02",
-      name: "Things",
+      // Same app under two names and domains: Thingteca (English), Cosateca (Spanish).
+      name: lang === "es" ? "Cosateca" : "Thingteca",
       ...t.things,
-      tech: ["Next.js", "TypeScript", "Supabase", "Tailwind CSS", "Playwright"],
-      live: "https://thingzz.vercel.app/app",
-      github: "https://github.com/maggioniduffy/things",
+      tech: ["Next.js 16", "TypeScript", "Supabase", "React Flow", "Tailwind CSS", "Playwright"],
+      live: lang === "es" ? "https://cosa.teca.plus" : "https://thing.teca.plus",
       media: {
-        light: "/images/things.png",
-        dark: "/images/things.png",
-        feature: "/images/things.png",
+        light: lang === "es" ? "/images/cosateca.png" : "/images/thingteca.png",
+        dark: lang === "es" ? "/images/cosateca.png" : "/images/thingteca.png",
+        feature: lang === "es" ? "/images/cosateca.png" : "/images/thingteca.png",
       },
       tone: "paper",
     },
@@ -121,9 +122,11 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
             <a href={p.live} target="_blank" rel="noopener noreferrer">
               {t.liveSite} ↗
             </a>
-            <a href={p.github} target="_blank" rel="noopener noreferrer">
-              GitHub ↗
-            </a>
+            {p.github && (
+              <a href={p.github} target="_blank" rel="noopener noreferrer">
+                GitHub ↗
+              </a>
+            )}
             {p.caseStudy && <a href={p.caseStudy}>{t.caseStudy}</a>}
           </div>
         </div>
@@ -236,9 +239,11 @@ function ProjectCard({ p, onOpen }: { p: Project; onOpen: () => void }) {
             <a href={p.live} target="_blank" rel="noopener noreferrer">
               {t.liveSite} ↗
             </a>
-            <a href={p.github} target="_blank" rel="noopener noreferrer">
-              GitHub ↗
-            </a>
+            {p.github && (
+              <a href={p.github} target="_blank" rel="noopener noreferrer">
+                GitHub ↗
+              </a>
+            )}
             {p.caseStudy && <a href={p.caseStudy}>{t.caseStudy}</a>}
           </div>
         </div>
