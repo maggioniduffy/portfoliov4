@@ -12,7 +12,7 @@ type Title = { pre: string; em: string };
 
 // Section shell: sticky heading on the left, content on the right — the same
 // grid as the Experience section.
-function Section({
+export function Section({
   num,
   label,
   title,
@@ -42,7 +42,7 @@ function Section({
   );
 }
 
-const Paragraphs = ({ items }: { items: string[] }) => (
+export const Paragraphs = ({ items }: { items: string[] }) => (
   <>
     {items.map((p) => (
       <p key={p}>{p}</p>

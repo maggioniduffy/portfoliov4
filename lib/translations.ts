@@ -16,6 +16,30 @@ type ProjectCopy = {
   tag?: string;
   summary: string;
   desc: string;
+  /** Alt text for the modal image, when the project name alone is not enough. */
+  alt?: string;
+};
+
+type FireCaseStudy = {
+  label: string;
+  back: string;
+  lede: string;
+  imageAlt: string;
+  links: { live: string; challenge: string };
+  highlights: { label: string; title: SectionTitle; body: string[] };
+  problem: { label: string; title: SectionTitle; body: string[] };
+  approach: {
+    label: string;
+    title: SectionTitle;
+    intro: string;
+    flow: { name: string; desc: string }[];
+    outro: string;
+  };
+  validation: { label: string; title: SectionTitle; body: string[] };
+  ml: { label: string; title: SectionTitle; body: string[] };
+  product: { label: string; title: SectionTitle; body: string[] };
+  role: { label: string; title: SectionTitle; body: string[] };
+  stack: { label: string; title: SectionTitle; core: string; also: string };
 };
 
 type Translation = {
@@ -52,6 +76,7 @@ type Translation = {
     viewProject: string;
     closeAria: string;
     items: {
+      fireCalendar: ProjectCopy;
       rionegro: ProjectCopy;
       kkapp: ProjectCopy;
       colchoncito: ProjectCopy;
@@ -76,6 +101,7 @@ type Translation = {
     regions: { label: string; title: SectionTitle; body: string[] };
     stack: { label: string; title: SectionTitle; core: string; also: string };
   };
+  fireCaseStudy: FireCaseStudy;
   marquee: string[];
   testimonials: {
     label: string;
@@ -161,9 +187,15 @@ export const translations: Record<Lang, Translation> = {
       viewProject: "Ver proyecto",
       closeAria: "Cerrar",
       items: {
+        fireCalendar: {
+          badge: "Teledetección",
+          tag: "Nuevo",
+          summary: "MODIS y VIIRS detectan incendios, pero VIIRS reporta unas 3,3 veces más focos, así que los registros largos se cortan cuando MODIS se retira. fire-calendar armoniza datos de NASA FIRMS para Argentina, de 2000 a 2026, en una serie comparable con bandas de incertidumbre, como calendario para 513 áreas.",
+          desc: "MODIS y VIIRS detectan incendios, pero VIIRS reporta unas 3,3 veces más focos, así que los registros largos se cortan cuando MODIS se retira. fire-calendar armoniza datos de NASA FIRMS para Argentina, de 2000 a 2026, en una serie comparable con bandas de incertidumbre, como calendario para 513 áreas.",
+          alt: "fire-calendar mostrando Córdoba: mapa de focos, cifras clave y un calendario de incendios por año y mes con una fila de ENSO",
+        },
         rionegro: {
           badge: "Hidrología",
-          tag: "Nuevo",
           summary: "Exploradores satelitales de cuencas fluviales argentinas sobre un código compartido: Río Negro (8.016 tramos de río, 25 subcuencas) y las cuencas de Córdoba. Pipeline de datos propio en TypeScript/DuckDB/GDAL con controles automáticos en cada paso; búsqueda en lenguaje natural donde un LLM elige ríos y métricas pero nunca escribe números.",
           desc: "Exploradores satelitales de cuencas fluviales argentinas sobre un código compartido: Río Negro (8.016 tramos de río, 25 subcuencas) y las cuencas de Córdoba. Pipeline de datos propio en TypeScript/DuckDB/GDAL con controles automáticos en cada paso; búsqueda en lenguaje natural donde un LLM elige ríos y métricas pero nunca escribe números.",
         },
@@ -247,6 +279,102 @@ export const translations: Record<Lang, Translation> = {
         body: [
           "Cada región es su propio explorador sobre un código compartido: el Río Negro en /rionegro y las cuencas de Córdoba en /cordoba.",
           "Las regiones se declaran en un registro con su propia configuración, textos y contenido, y comparten todos los componentes.",
+        ],
+      },
+      stack: {
+        label: "Stack",
+        title: { pre: "Con qué está ", em: "hecho." },
+        core: "Stack principal",
+        also: "También",
+      },
+    },
+    fireCaseStudy: {
+      label: "Caso de estudio · Teledetección",
+      back: "← Todos los proyectos",
+      lede: "Calendario de fuego: un calendario de incendios MODIS + VIIRS armonizado para Argentina, de 2000 a hoy. Presentado al desafío de CONAE “Harmonization of MODIS and VIIRS Hot Spots” del NASA Space Apps Challenge 2026 (sede Córdoba), en noviembre de 2026.",
+      imageAlt: "fire-calendar mostrando Córdoba: mapa de focos, cifras clave y un calendario de incendios por año y mes con una fila de ENSO",
+      links: { live: "Sitio en vivo", challenge: "NASA Space Apps Challenge" },
+      highlights: {
+        label: "Lo destacado",
+        title: { pre: "En ", em: "resumen." },
+        body: [
+          "Convertí dos registros de incendios de satélites de la NASA, incompatibles entre sí, en una sola serie 2000–2026 con incertidumbre calibrada.",
+          "Validado con reglas fijadas de antemano: 10 % de error por bloque y año, 80,6 % de cobertura para una banda del 80 %.",
+          "Probé gradient boosting contra un baseline simple y publiqué el baseline cuando el ML no ganó.",
+          "Publiqué un calendario de incendios bilingüe y accesible para cada provincia y departamento de Argentina.",
+        ],
+      },
+      problem: {
+        label: "El problema",
+        title: { pre: "Un registro, dos ", em: "sensores." },
+        body: [
+          "Sobre Argentina, VIIRS S-NPP (375 m) reporta unas 3,3 veces más focos que MODIS (1 km), entre febrero de 2012 y diciembre de 2025.",
+          "Un registro que cambia de sensor da un salto sin que cambie el fuego, y MODIS se está retirando. S-NPP dejó de publicarse en FIRMS el 2 de noviembre de 2026.",
+        ],
+      },
+      approach: {
+        label: "Enfoque",
+        title: { pre: "Un factor, ", em: "contraído." },
+        intro: "Un pipeline en Python lleva los focos de cada satélite a una escala común, con una incertidumbre explícita. Así se arma la serie:",
+        flow: [
+          {
+            name: "Datos de FIRMS",
+            desc: "Un pipeline en Python sobre los archivos por país de FIRMS y su API de áreas, filtrado y agrupado en una grilla de 0,1° por satélite.",
+          },
+          {
+            name: "Factor de escala",
+            desc: "Un factor por bloque de 2,5°, mes y día/noche, contraído hacia el factor nacional.",
+          },
+          {
+            name: "Bandas de incertidumbre",
+            desc: "Bandas conformales de incertidumbre del 80 % para cada valor.",
+          },
+          {
+            name: "Dos escalas",
+            desc: "La salida viene en dos escalas, equivalente a MODIS y equivalente a VIIRS.",
+          },
+          {
+            name: "Continuidad satelital",
+            desc: "NOAA-20 y NOAA-21 sostienen la serie después de S-NPP y MODIS.",
+          },
+          {
+            name: "Calibración congelada",
+            desc: "La calibración queda congelada y con checksum, y los meses en tiempo casi real se marcan como provisorios.",
+          },
+        ],
+        outro: "El resultado es una sola serie comparable, de 2000 en adelante, en vez de dos registros que no se pueden empalmar.",
+      },
+      validation: {
+        label: "Validación",
+        title: { pre: "Reglas fijadas ", em: "antes." },
+        body: [
+          "Las reglas se fijaron antes de cada corrida. El error por bloque y año (WAPE) fue de 10,1 % y 10,6 % con leave-one-year-out, de 2012 a 2025.",
+          "La cobertura fue de 80,6 % para una banda nominal del 80 %. Con MODIS apagado en una simulación, el error fue de 12,3 %. Un baseline de quantile matching perdió en las dos direcciones.",
+        ],
+      },
+      ml: {
+        label: "Machine learning",
+        title: { pre: "Ganó el factor ", em: "simple." },
+        body: [
+          "Probé LightGBM con FRP, el conteo de la vecindad de 3×3, la proporción día/noche y el mes, contra el factor simple.",
+          "Hacia MODIS quedó cerca (15,9 % contra 17,2 %), pero no pasó la regla de sesgo, así que se publica el factor simple.",
+        ],
+      },
+      product: {
+        label: "Producto",
+        title: { pre: "Un calendario, no una ", em: "alarma." },
+        body: [
+          "Una app web estática para 513 áreas (24 provincias y 489 departamentos): calendario de año por mes, anomalías, una fila con la fase de ENSO (se muestra como asociación, no como causa), mapa de focos y descarga en CSV.",
+          "Es bilingüe, español e inglés, con tema claro y oscuro y accesibilidad probada en CI. Es retrospectiva: no es un sistema de alerta ni de pronóstico.",
+        ],
+      },
+      role: {
+        label: "Mi rol",
+        title: { pre: "Un autor, un ", em: "asistente." },
+        body: [
+          "Autor único: planteo del problema, método, diseño de la validación, pipeline de datos, app web y despliegue.",
+          "Lo construí con un asistente de código con IA (Claude Code), planificando y validando yo cada paso.",
+          "Lo presenté al desafío de CONAE en el NASA Space Apps Challenge 2026, sede Córdoba, en noviembre de 2026.",
         ],
       },
       stack: {
@@ -377,9 +505,15 @@ export const translations: Record<Lang, Translation> = {
       viewProject: "View project",
       closeAria: "Close",
       items: {
+        fireCalendar: {
+          badge: "Remote sensing",
+          tag: "New",
+          summary: "MODIS and VIIRS satellites both detect fires, but VIIRS reports about 3.3× more hot spots, so long records break when MODIS retires. fire-calendar harmonizes NASA FIRMS data for Argentina, 2000 to 2026, into one comparable series with uncertainty bands, shown as a calendar for 513 areas.",
+          desc: "MODIS and VIIRS satellites both detect fires, but VIIRS reports about 3.3× more hot spots, so long records break when MODIS retires. fire-calendar harmonizes NASA FIRMS data for Argentina, 2000 to 2026, into one comparable series with uncertainty bands, shown as a calendar for 513 areas.",
+          alt: "fire-calendar showing Córdoba: hot-spot map, key figures and a year-by-month fire calendar with an ENSO row",
+        },
         rionegro: {
           badge: "Hydrology",
-          tag: "New",
           summary: "Satellite explorers of Argentine river basins on a shared codebase: Río Negro (8,016 river reaches, 25 sub-basins) and the Córdoba basins. Custom TypeScript/DuckDB/GDAL data pipeline with automated checks at every step; natural-language search where an LLM picks rivers and metrics but never writes numbers.",
           desc: "Satellite explorers of Argentine river basins on a shared codebase: Río Negro (8,016 river reaches, 25 sub-basins) and the Córdoba basins. Custom TypeScript/DuckDB/GDAL data pipeline with automated checks at every step; natural-language search where an LLM picks rivers and metrics but never writes numbers.",
         },
@@ -469,6 +603,102 @@ export const translations: Record<Lang, Translation> = {
         label: "Stack",
         title: { pre: "What it's ", em: "built with." },
         core: "Core stack",
+        also: "Also",
+      },
+    },
+    fireCaseStudy: {
+      label: "Case study · Remote sensing",
+      back: "← All projects",
+      lede: "A harmonized MODIS + VIIRS fire calendar for Argentina, 2000 to today. Submitted to CONAE's challenge “Harmonization of MODIS and VIIRS Hot Spots” at NASA Space Apps Challenge 2026 (Córdoba venue), November 2026.",
+      imageAlt: "fire-calendar showing Córdoba: hot-spot map, key figures and a year-by-month fire calendar with an ENSO row",
+      links: { live: "Live site", challenge: "NASA Space Apps Challenge" },
+      highlights: {
+        label: "Highlights",
+        title: { pre: "In ", em: "short." },
+        body: [
+          "Turned two incompatible NASA satellite fire records into one 2000–2026 series with calibrated uncertainty.",
+          "Validated with pre-registered rules: 10 % block-year error, 80.6 % coverage for an 80 % band.",
+          "Tested gradient boosting against a simple baseline and shipped the baseline when ML did not win.",
+          "Published a bilingual, accessible fire calendar for every province and department of Argentina.",
+        ],
+      },
+      problem: {
+        label: "The problem",
+        title: { pre: "One record, two ", em: "sensors." },
+        body: [
+          "Over Argentina, VIIRS S-NPP (375 m) reports about 3.3× more hot spots than MODIS (1 km), from February 2012 to December 2025.",
+          "A record that switches sensors jumps with no change in fire, and MODIS is being retired. S-NPP stopped in FIRMS on 2 November 2026.",
+        ],
+      },
+      approach: {
+        label: "Approach",
+        title: { pre: "One factor, ", em: "shrunk." },
+        intro: "A Python pipeline brings each satellite's hot spots onto a common scale, with explicit uncertainty. This is how the series is built:",
+        flow: [
+          {
+            name: "FIRMS data",
+            desc: "A Python pipeline over the FIRMS per-country files and area API, filtered and gridded at 0.1° per satellite.",
+          },
+          {
+            name: "Scale factor",
+            desc: "One scale factor per 2.5° block, month and day/night, shrunk toward the national factor.",
+          },
+          {
+            name: "Uncertainty bands",
+            desc: "80 % conformal uncertainty bands for every value.",
+          },
+          {
+            name: "Two scales",
+            desc: "Output comes in two scales, MODIS-equivalent and VIIRS-equivalent.",
+          },
+          {
+            name: "Satellite continuity",
+            desc: "NOAA-20 and NOAA-21 carry the series after S-NPP and MODIS.",
+          },
+          {
+            name: "Frozen calibration",
+            desc: "Calibration is frozen and checksummed, and near-real-time months are marked provisional.",
+          },
+        ],
+        outro: "The result is one comparable series from 2000 onward, instead of two records that cannot be joined.",
+      },
+      validation: {
+        label: "Validation",
+        title: { pre: "Rules set ", em: "first." },
+        body: [
+          "The rules were fixed before each run. Block-year error (WAPE) came out at 10.1 % and 10.6 % with leave-one-year-out, 2012–2025.",
+          "Coverage was 80.6 % for a nominal 80 % band. With MODIS switched off in a simulation, the error was 12.3 %. A quantile-matching baseline lost in both directions.",
+        ],
+      },
+      ml: {
+        label: "Machine learning",
+        title: { pre: "The simple factor ", em: "won." },
+        body: [
+          "I tested LightGBM with FRP, a 3×3 neighbourhood count, day/night share and month against the simple factor.",
+          "It came close toward MODIS (15.9 % vs 17.2 %) but failed the bias rule, so the simple factor ships.",
+        ],
+      },
+      product: {
+        label: "Product",
+        title: { pre: "A calendar, not an ", em: "alarm." },
+        body: [
+          "A static web app for 513 areas (24 provinces, 489 departments): a year × month calendar, anomalies, an ENSO phase row (shown as an association, not a cause), a hot-spot map and CSV download.",
+          "It is bilingual, Spanish and English, with light and dark themes and accessibility tested in CI. It is retrospective, not an alert or forecasting system.",
+        ],
+      },
+      role: {
+        label: "My role",
+        title: { pre: "One author, one ", em: "assistant." },
+        body: [
+          "Solo author: problem framing, method, validation design, data pipeline, web app and deployment.",
+          "Built with an AI coding assistant (Claude Code), with me planning and validating each step.",
+          "Submitted to the CONAE challenge at NASA Space Apps Challenge 2026, Córdoba venue, November 2026.",
+        ],
+      },
+      stack: {
+        label: "Stack",
+        title: { pre: "What it's ", em: "built with." },
+        core: "Core",
         also: "Also",
       },
     },

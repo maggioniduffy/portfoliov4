@@ -25,6 +25,8 @@ type Project = {
   /** Projects without a demo video show a still: light/dark follow the theme, `feature` fills the modal. */
   media: { video: string } | { light: string; dark: string; feature: string };
   tone: "paper" | "acc" | "dusk";
+  /** Alt text for the modal image. Falls back to the project name. */
+  alt?: string;
 };
 
 const getProjects = (lang: Lang): Project[] => {
@@ -32,6 +34,21 @@ const getProjects = (lang: Lang): Project[] => {
   return [
     {
       num: "01",
+      name: "fire-calendar",
+      ...t.fireCalendar,
+      tech: ["Python", "pandas", "LightGBM", "TypeScript", "React", "MapLibre GL", "Cloudflare Pages"],
+      live: "https://fire-calendar.pages.dev/",
+      github: "https://github.com/maggioniduffy/fire-calendar",
+      caseStudy: "/projects/fire-calendar",
+      media: {
+        light: "/images/fire-calendar.png",
+        dark: "/images/fire-calendar.png",
+        feature: "/images/fire-calendar.png",
+      },
+      tone: "dusk",
+    },
+    {
+      num: "02",
       name: "Basin Explorer",
       ...t.rionegro,
       tech: ["Next.js", "TypeScript", "MapLibre GL", "PMTiles", "DuckDB", "GDAL", "MongoDB"],
@@ -42,7 +59,7 @@ const getProjects = (lang: Lang): Project[] => {
       tone: "dusk",
     },
     {
-      num: "02",
+      num: "03",
       // Same app under two names and domains: Thingteca (English), Cosateca (Spanish).
       name: lang === "es" ? "Cosateca" : "Thingteca",
       ...t.things,
@@ -56,7 +73,7 @@ const getProjects = (lang: Lang): Project[] => {
       tone: "paper",
     },
     {
-      num: "03",
+      num: "04",
       name: "KKApp",
       ...t.kkapp,
       tech: ["Next.js", "TypeScript", "NestJS", "PostgreSQL"],
@@ -70,7 +87,7 @@ const getProjects = (lang: Lang): Project[] => {
       tone: "acc",
     },
     {
-      num: "04",
+      num: "05",
       name: "Colchoncito",
       ...t.colchoncito,
       tech: ["Next.js", "TypeScript", "Google Auth", "Vercel"],
@@ -109,7 +126,7 @@ function ProjectModal({ p, onClose }: { p: Project; onClose: () => void }) {
         {"video" in p.media ? (
           <video src={p.media.video} controls autoPlay playsInline />
         ) : (
-          <img src={p.media.feature} alt={p.name} />
+          <img src={p.media.feature} alt={p.alt ?? p.name} />
         )}
         <div className="modal-info">
           <div className="label acc">
