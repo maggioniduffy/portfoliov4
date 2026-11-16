@@ -44,7 +44,7 @@ export default function FireCalendarCaseStudy() {
           </a>
           <div className="label acc">{t.label}</div>
           <h1 className="contact-title">
-            fire-<em>calendar.</em>
+            Fire <em>Calendar.</em>
           </h1>
           <p className="case-lede">{t.lede}</p>
           <div className="card-links">
@@ -59,7 +59,7 @@ export default function FireCalendarCaseStudy() {
             </a>
           </div>
           <img
-            className="case-video"
+            className="case-image"
             src="/images/fire-calendar.png"
             alt={t.imageAlt}
             width={1600}

@@ -4,7 +4,7 @@ import FireCalendarCaseStudy from "@/components/FireCalendarCaseStudy";
 import ScrollFx from "@/components/ScrollFx";
 import { LanguageProvider } from "@/components/LanguageContext";
 
-const TITLE = "fire-calendar — Case study · Faustino Maggioni Duffy";
+const TITLE = "Fire Calendar — Case study · Faustino Maggioni Duffy";
 const DESCRIPTION =
   "A harmonized MODIS + VIIRS fire calendar for Argentina, 2000 to today, built from NASA FIRMS data with uncertainty bands. Submitted to CONAE's challenge at NASA Space Apps Challenge 2026.";
 

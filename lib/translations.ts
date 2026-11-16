@@ -190,9 +190,9 @@ export const translations: Record<Lang, Translation> = {
         fireCalendar: {
           badge: "Teledetección",
           tag: "Nuevo",
-          summary: "MODIS y VIIRS detectan incendios, pero VIIRS reporta unas 3,3 veces más focos, así que los registros largos se cortan cuando MODIS se retira. fire-calendar armoniza datos de NASA FIRMS para Argentina, de 2000 a 2026, en una serie comparable con bandas de incertidumbre, como calendario para 513 áreas.",
-          desc: "MODIS y VIIRS detectan incendios, pero VIIRS reporta unas 3,3 veces más focos, así que los registros largos se cortan cuando MODIS se retira. fire-calendar armoniza datos de NASA FIRMS para Argentina, de 2000 a 2026, en una serie comparable con bandas de incertidumbre, como calendario para 513 áreas.",
-          alt: "fire-calendar mostrando Córdoba: mapa de focos, cifras clave y un calendario de incendios por año y mes con una fila de ENSO",
+          summary: "MODIS y VIIRS detectan incendios, pero VIIRS reporta unas 3,3 veces más focos, así que los registros largos se cortan cuando MODIS se retira. Fire Calendar armoniza datos de NASA FIRMS para Argentina, de 2000 a 2026, en una serie comparable con bandas de incertidumbre, como calendario para 513 áreas.",
+          desc: "MODIS y VIIRS detectan incendios, pero VIIRS reporta unas 3,3 veces más focos, así que los registros largos se cortan cuando MODIS se retira. Fire Calendar armoniza datos de NASA FIRMS para Argentina, de 2000 a 2026, en una serie comparable con bandas de incertidumbre, como calendario para 513 áreas.",
+          alt: "Fire Calendar mostrando Córdoba: mapa de focos, cifras clave y un calendario de incendios por año y mes con una fila de ENSO",
         },
         rionegro: {
           badge: "Hidrología",
@@ -292,7 +292,7 @@ export const translations: Record<Lang, Translation> = {
       label: "Caso de estudio · Teledetección",
       back: "← Todos los proyectos",
       lede: "Calendario de fuego: un calendario de incendios MODIS + VIIRS armonizado para Argentina, de 2000 a hoy. Presentado al desafío de CONAE “Harmonization of MODIS and VIIRS Hot Spots” del NASA Space Apps Challenge 2026 (sede Córdoba), en noviembre de 2026.",
-      imageAlt: "fire-calendar mostrando Córdoba: mapa de focos, cifras clave y un calendario de incendios por año y mes con una fila de ENSO",
+      imageAlt: "Fire Calendar mostrando Córdoba: mapa de focos, cifras clave y un calendario de incendios por año y mes con una fila de ENSO",
       links: { live: "Sitio en vivo", challenge: "NASA Space Apps Challenge" },
       highlights: {
         label: "Lo destacado",
@@ -508,9 +508,9 @@ export const translations: Record<Lang, Translation> = {
         fireCalendar: {
           badge: "Remote sensing",
           tag: "New",
-          summary: "MODIS and VIIRS satellites both detect fires, but VIIRS reports about 3.3× more hot spots, so long records break when MODIS retires. fire-calendar harmonizes NASA FIRMS data for Argentina, 2000 to 2026, into one comparable series with uncertainty bands, shown as a calendar for 513 areas.",
-          desc: "MODIS and VIIRS satellites both detect fires, but VIIRS reports about 3.3× more hot spots, so long records break when MODIS retires. fire-calendar harmonizes NASA FIRMS data for Argentina, 2000 to 2026, into one comparable series with uncertainty bands, shown as a calendar for 513 areas.",
-          alt: "fire-calendar showing Córdoba: hot-spot map, key figures and a year-by-month fire calendar with an ENSO row",
+          summary: "MODIS and VIIRS satellites both detect fires, but VIIRS reports about 3.3× more hot spots, so long records break when MODIS retires. Fire Calendar harmonizes NASA FIRMS data for Argentina, 2000 to 2026, into one comparable series with uncertainty bands, shown as a calendar for 513 areas.",
+          desc: "MODIS and VIIRS satellites both detect fires, but VIIRS reports about 3.3× more hot spots, so long records break when MODIS retires. Fire Calendar harmonizes NASA FIRMS data for Argentina, 2000 to 2026, into one comparable series with uncertainty bands, shown as a calendar for 513 areas.",
+          alt: "Fire Calendar showing Córdoba: hot-spot map, key figures and a year-by-month fire calendar with an ENSO row",
         },
         rionegro: {
           badge: "Hydrology",
@@ -610,7 +610,7 @@ export const translations: Record<Lang, Translation> = {
       label: "Case study · Remote sensing",
       back: "← All projects",
       lede: "A harmonized MODIS + VIIRS fire calendar for Argentina, 2000 to today. Submitted to CONAE's challenge “Harmonization of MODIS and VIIRS Hot Spots” at NASA Space Apps Challenge 2026 (Córdoba venue), November 2026.",
-      imageAlt: "fire-calendar showing Córdoba: hot-spot map, key figures and a year-by-month fire calendar with an ENSO row",
+      imageAlt: "Fire Calendar showing Córdoba: hot-spot map, key figures and a year-by-month fire calendar with an ENSO row",
       links: { live: "Live site", challenge: "NASA Space Apps Challenge" },
       highlights: {
         label: "Highlights",

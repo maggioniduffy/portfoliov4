@@ -8,7 +8,7 @@ Bilingual (English / Spanish), light and dark themes, built with Next.js 16 and 
 
 | # | Project | What it is | Links |
 | --- | --- | --- | --- |
-| 01 | fire-calendar | Harmonized MODIS + VIIRS fire calendar for Argentina, 2000 to today, from NASA FIRMS data with uncertainty bands, with a case study at `/projects/fire-calendar` | [Live](https://fire-calendar.pages.dev/) · [Code](https://github.com/maggioniduffy/fire-calendar) |
+| 01 | Fire Calendar | Harmonized MODIS + VIIRS fire calendar for Argentina, 2000 to today, from NASA FIRMS data with uncertainty bands, with a case study at `/projects/fire-calendar` | [Live](https://fire-calendar.pages.dev/) · [Code](https://github.com/maggioniduffy/fire-calendar) |
 | 02 | Basin Explorer | Satellite explorers of Argentine river basins on a custom DuckDB/GDAL data pipeline, with a case study at `/projects/basin-explorer` | [Live](https://basinexplorer.vercel.app/) · [Code](https://github.com/maggioniduffy/rionegro-basin-explorer) |
 | 03 | Thingteca · Cosateca | Save-for-later app for links, files and notes: sorted by format, on a grid, list or canvas, usable without an account | [Live (EN)](https://thing.teca.plus) · [Live (ES)](https://cosa.teca.plus) |
 | 04 | KKApp | Collaborative public restroom finder with geospatial search, roles and moderation | [Live](https://kkapp.es/) · [Code](https://github.com/maggioniduffy/conpermiso) |

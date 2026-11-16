@@ -1035,6 +1035,14 @@ em {
   background: #000;
   display: block;
 }
+.case-image {
+  display: block;
+  width: 100%;
+  max-width: 1100px;
+  height: auto;
+  margin-inline: auto;
+  background: #000;
+}
 .experience.case-section {
   padding: 112px var(--gutter) 0;
 }

@@ -34,7 +34,7 @@ const getProjects = (lang: Lang): Project[] => {
   return [
     {
       num: "01",
-      name: "fire-calendar",
+      name: "Fire Calendar",
       ...t.fireCalendar,
       tech: ["Python", "pandas", "LightGBM", "TypeScript", "React", "MapLibre GL", "Cloudflare Pages"],
       live: "https://fire-calendar.pages.dev/",
